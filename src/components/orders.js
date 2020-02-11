@@ -50,7 +50,7 @@ class Orders extends Component {
                       <div className="col-12">
                         <div className="d-inline-flex">
                           <div>
-                            <h5 className="prices ml-4 card-bodytext text-white">
+                            <h5 className="prices card-bodytext text-white">
                               small :{this.state.menu[menuItem].small}
                             </h5>
                             <div className="card-bodybackground"> </div>
@@ -60,7 +60,7 @@ class Orders extends Component {
                       <div className="col-12">
                         <div className="d-inline-flex">
                           <div>
-                            <h5 className="prices ml-4 card-bodytext text-white">
+                            <h5 className="prices card-bodytext text-white">
                               medium :{this.state.menu[menuItem].medium}
                             </h5>
                             <div className="card-bodybackground"> </div>
