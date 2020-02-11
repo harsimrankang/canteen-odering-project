@@ -7,7 +7,7 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
 import Navbar from "./navbar";
 import Orders from "./orders";
-
+import Burgrill from "./Burgrill";
 class App extends Component {
   render() {
     return (
