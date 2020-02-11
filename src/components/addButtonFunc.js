@@ -1,8 +1,6 @@
 
-var count;
-if (!count) {
-    count = 0;
-}
+var count = 0;
+
 
 
 function incrementCount() {
@@ -15,6 +13,6 @@ function decrementCount() {
     document.getElementsByClassName('count').innerHTML = count;
 }
 
-
+export default addButtonFunc;
 
 

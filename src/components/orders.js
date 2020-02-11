@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./menu.css";
-import "./addButtonFunc.js"
+import "./addButtonFunc.js";
 class Orders extends Component {
   state = { menu: [] };
   componentDidMount() {
