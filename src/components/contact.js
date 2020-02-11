@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 class Menu extends Component {
   render() {
-    return <div>Menu</div>;
+    return <div>Contact</div>;
   }
 }
 export default Menu;

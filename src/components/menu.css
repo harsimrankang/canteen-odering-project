@@ -1,0 +1,13 @@
+.customButton {
+  background-color: cadetblue;
+  color: white;
+  border: solid;
+  border-color: lightgray;
+  border-width: 1px;
+}
+.card-title {
+  transition: transform 0.4s;
+}
+.card-title:hover {
+  transform: scale(1.1);
+}

@@ -1,17 +1,31 @@
-import React from "react";
-import { HashRouter as Router, Switch, Route } from "react-router-dom";
+import React, { Component } from "react";
+
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
+
+
+
 import Navbar from "./navbar";
 import Orders from "./orders";
-import Home from "./home";
-import Menu from "./menu";
-function App() {
+
+class App extends Component {
+  render() {
+    return (
+      <div>
+        <Navbar />
+        <Orders />
+      </div>
+    );
+  }
+}
+/*function App() {
   return (
     <Router basename="/">
       <div>
         <Navbar />
         <div>
           <Switch>
-            <Route path="/menu">
+            <Route path="/contact">
               <Menu />
             </Route>
             <Route path="/orders">
@@ -25,6 +39,6 @@ function App() {
       </div>
     </Router>
   );
-}
+}*/
 
 export default App;
