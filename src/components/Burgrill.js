@@ -33,11 +33,9 @@ class Burgrill extends Component {
                                         style={{ objectFit: "cover" }}
                                     ></img>
                                     <div className="card-img-overlay mx-1">
-                                        {/*<div className="row justify-content-center">*/}
                                         <h5 className="card-title d-inline-flex text-white">
                                             {menuItem}
                                         </h5>
-                                        {/*</div>*/}
                                         <button
                                             className="btn customButton ml-auto"
                                             style={{
