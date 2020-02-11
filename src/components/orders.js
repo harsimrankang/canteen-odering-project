@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "./menu.css";
+import "./addButtonFunc.js"
 class Orders extends Component {
   state = { menu: [] };
   componentDidMount() {
@@ -44,7 +45,13 @@ class Orders extends Component {
                     <h5 className="prices d-inline-flex text-black" >
                       small :{this.state.menu[menuItem].small}
                     </h5>
+
+                    <button className="btn sub" onClick="incrementCount()"
+                    >+</button>
+                    <button className="btn count" ></button>
+                    <button className="btn add" onClick="decrementCount()" >-</button>
                     <br></br>
+
                     <h5 className="prices d-inline-flex text-black" >
                       medium :{this.state.menu[menuItem].medium}
                     </h5>
