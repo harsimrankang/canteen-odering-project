@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+/*import React, { Component } from "react";
 import "./menu.css";
 import "./addButtonFunc.js";
 class Orders extends Component {
@@ -75,4 +75,4 @@ class Orders extends Component {
         );
     }
 }
-export default LaPinozNV;
+export default LaPinozNV;*/

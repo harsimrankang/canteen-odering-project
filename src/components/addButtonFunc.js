@@ -1,18 +1,47 @@
+var count;
+if (!count) {
+    count = 0;
+}
 
-var count = 0;
-
-
-
-function incrementCount() {
+function incrementCount(key) {
     count++;
-    document.getElementsByClassName('count').innerHTML = count;
+    if (count > 0 || count == 0) {
+        document.getElementById(key).value = count;
+    }
 }
 
-function decrementCount() {
+function decrementCount(key) {
     count--;
-    document.getElementsByClassName('count').innerHTML = count;
+    if (count < 0 || count == 0) {
+        count = 0;
+        document.getElementById(key).value = 0;
+    }
+    else {
+        document.getElementById(key).value = count;
+    }
 }
 
-export default addButtonFunc;
 
+var count2;
+if (!count2) {
+    count2 = 0;
+}
+function incrementCount2(key) {
+    count2++;
+    if (count2 > 0 || count2 == 0) {
+        document.getElementById(key).value = count2;
+    }
+}
 
+function decrementCount2(key) {
+    count2--;
+    if (count2 < 0 || count2 == 0) {
+        count2 = 0;
+        document.getElementById(key).value = 0;
+    }
+    else {
+        document.getElementById(key).value = count2;
+    }
+}
+
+export { incrementCount, decrementCount, incrementCount2, decrementCount2 };

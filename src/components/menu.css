@@ -5,42 +5,44 @@
   border-color: lightgray;
   border-width: 1px;
 }
-.card-title {
-  transition: transform 0.4s;
+.card-titlebackground {
+  background-color: rgba(0, 0, 0, 0.9);
+  filter: blur(15px);
+  position: relative;
+  width: 120%;
+  height: 100%;
+  top: -100%;
+  left: -10%;
 }
-.card-title:hover {
+.card-titletext {
+  position: relative;
+  transition: transform 0.4s;
+  z-index: 2;
+}
+.card-bodybackground {
+  background-color: rgba(0, 0, 0, 0.9);
+  filter: blur(15px);
+  position: relative;
+  width: 120%;
+  height: 100%;
+  top: -100%;
+  left: -10%;
+}
+.card-bodytext {
+  position: relative;
+  z-index: 2;
+}
+.card-titletext:hover {
   transform: scale(1.1);
 }
-
+.count {
+  font-size: 1rem;
+  width: 48px;
+}
 
 .sub {
-    margin-left: 14px;
-	margin-top: 0px;
-    float:right;
-  
-  	width: 40px ;
-  	height: 20px ;
-  	font-size: 18px;
-    color: rgb(29, 5, 5);   
-    background-color: transparent;
-    background-repeat:no-repeat;
-    border: 1px solid rgb(29, 5, 5);
-    cursor:pointer;
-    overflow: hidden;        
-  
+  font-size: 1rem;
 }
-.add{
-   
-    margin-top: 0px;
-
-	float:right;
-  	width: 40px ;
-  	height: 20px ;
-  	font-size: 18px;
-    color: rgb(29, 5, 5);   
-    background-color: transparent;
-    background-repeat:no-repeat;
-    border: 1px solid rgb(29, 5, 5);
-    cursor:pointer;
-    overflow: hidden;     
+.add {
+  font-size: 1rem;
 }

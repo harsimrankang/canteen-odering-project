@@ -7,14 +7,14 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
 import Navbar from "./navbar";
 import Orders from "./orders";
-import LaPinozNV from "./LaPinozNV"
+
 class App extends Component {
   render() {
     return (
       <div>
         <Navbar />
         <Orders />
-        <LaPinozNV />
+
       </div>
     );
   }
