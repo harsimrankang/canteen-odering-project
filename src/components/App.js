@@ -13,13 +13,6 @@ import Burgrill from "./Burgrill";
 class App extends Component {
   render() {
     return (
-<<<<<<< HEAD
-      <div>
-        <Navbar />
-        <Orders />
-
-      </div>
-=======
       <Router basename='/'>
         <div>
           <Switch>
@@ -29,7 +22,6 @@ class App extends Component {
           <Orders />
         </div>
       </Router>
->>>>>>> 70392ed687acbae2957f693a2171b97c735bf9cb
     );
   }
 }
