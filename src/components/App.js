@@ -9,19 +9,8 @@ import Burgrill from "./Burgrill";
 class App extends Component {
   render() {
     return (
-<<<<<<< HEAD
-      <Router basename="/">
-=======
-<<<<<<< HEAD
       <div>
-        <Navbar />
-        <Orders />
-
-      </div>
-=======
-      <Router basename='/'>
->>>>>>> 93575e7b19bc8fb76c2b1c51f5d31ce8b6a8abad
-        <div>
+        <Router basename="/">
           <Navbar />
           <Switch>
             <Route path="/Burgrill">
@@ -31,9 +20,8 @@ class App extends Component {
               <Orders />
             </Route>
           </Switch>
-        </div>
-      </Router>
->>>>>>> 70392ed687acbae2957f693a2171b97c735bf9cb
+        </Router>
+      </div>
     );
   }
 }
