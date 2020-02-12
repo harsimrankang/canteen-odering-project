@@ -1,9 +1,5 @@
 import React, { Component } from "react";
-import {
-  HashRouter as Router,
-  Switch,
-  Route
-} from "react-router-dom";
+import { HashRouter as Router, Switch, Route } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
@@ -16,7 +12,12 @@ class App extends Component {
       <Router basename='/'>
         <div>
           <Switch>
-            <Route exactpath="/Burgrill"><Burgrill /></Route>
+            <Route path="/Burgrill">
+              <Burgrill />
+            </Route>
+            <Route path="/Orders">
+              <Orders />
+            </Route>
           </Switch>
           <Navbar />
           <Orders />
