@@ -53,6 +53,11 @@ class Orders extends Component {
                             <h5 className="prices card-bodytext text-white">
                               small :{this.state.menu[menuItem].small}
                             </h5>
+
+
+
+
+
                             <div className="card-bodybackground"> </div>
                           </div>
                         </div>
