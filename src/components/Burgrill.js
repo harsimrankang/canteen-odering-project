@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import "./menu.css";
 class Burgrill extends Component {
-    state = { menu1: [] };
+    state = { menu: [] };
     componentDidMount() {
         fetch(
-            "https://canteen-ordering-3d30c.firebaseio.com/public/Burgrill"
+            "https://canteen-ordering-3d30c.firebaseio.com/public/Burgrill.json"
         )
             .then(res => res.json())
-            .then(res => this.setState({ menu1: res }));
+            .then(res => this.setState({ menu: res }));
     }
     componentDidUpdate() {
         console.log("updated");
