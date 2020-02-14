@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
-import { withFirebase } from './Firebase';
+import { withFirebase } from '../Firebase';
+import SignOut from '../SignOut';
 
-const Login = () => (
-    <div class="row justify-content-center bg-white p-5">
-        <p class="display-3">Sign In</p>
+const SignIn = () => (
+    <div>
+        <div class="row justify-content-center bg-white p-5">
+            <h1>Sign In</h1>
+        </div>
         <SignInForm />
     </div>
 );
@@ -28,6 +31,8 @@ class SignInFormBase extends Component {
                 this.setState({ error });
             });
         event.preventDefault();
+
+
     };
     onChange = event => {
         this.setState({ [event.target.name]: event.target.value });
@@ -38,29 +43,30 @@ class SignInFormBase extends Component {
         return (
             <form onSubmit={this.onSubmit}>
                 <div class="row justify-content-center bg-white">
-                    <input
-                        name="email"
-                        class="col-12 my-2"
-                        value={email}
-                        onChange={this.onChange}
-                        type="text"
-                        placeholder="Email Address"
-                    />
-                    <input
-                        name="password"
-                        class="col-12 my-2"
-                        value={password}
-                        onChange={this.onChange}
-                        type="password"
-                        placeholder="Password"
-                    />
-                    <button class="btn btn-primary col-12 my-2" disabled={isInvalid} type="submit">
-                        Sign In
-        </button>
-                    <SignInGoogle class="my-2" />
-                    <SignInFacebook />
-                    <SignInTwitter />
-                    {error && <p>{error.message}</p>}
+                    <div class="col-6">
+                        <input
+                            name="email"
+                            class="col-12 my-2"
+                            value={email}
+                            onChange={this.onChange}
+                            type="text"
+                            placeholder="Email Address"
+                        />
+                        <input
+                            name="password"
+                            class="col-12 my-2"
+                            value={password}
+                            onChange={this.onChange}
+                            type="password"
+                            placeholder="Password"
+                        />
+                        <button class="btn btn-primary col-12 my-2" disabled={isInvalid} type="submit">
+                            Sign In
+                        </button>
+
+
+                        {error && <p>{error.message}</p>}
+                    </div>
                 </div>
             </form>
         );
@@ -187,5 +193,5 @@ const SignInTwitter = withFirebase(SignInTwitterBase);
 const SignInFacebook = withFirebase(SignInFacebookBase);
 const SignInForm = withFirebase(SignInFormBase);
 const SignInGoogle = (withFirebase(SignInGoogleBase));
-export default Login;
+export default SignIn;
 export { SignInForm, SignInGoogle, SignInFacebook };
