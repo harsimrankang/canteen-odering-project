@@ -6,11 +6,13 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import Navbar from "./navbar";
 import Orders from "./orders";
 import Burgrill from "./Burgrill";
+import SignUp from "./SignUp";
+import Login from "./Login";
 class App extends Component {
   render() {
     return (
-      <div>
-        <Router basename="/">
+      <Router basename='/'>
+        <div>
           <Navbar />
           <Switch>
             <Route path="/Burgrill">
@@ -19,9 +21,19 @@ class App extends Component {
             <Route path="/Orders">
               <Orders />
             </Route>
+            <Route path="/Login">
+              <Login />
+            </Route>
+            <Route path="/SignUp">
+              <SignUp />
+            </Route>
+
+
           </Switch>
-        </Router>
-      </div>
+
+
+        </div>
+      </Router>
     );
   }
 }

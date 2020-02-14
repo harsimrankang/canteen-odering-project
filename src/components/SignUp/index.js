@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
+import { withFirebase } from '../Firebase';
 { {/*import { Link, withRouter } from 'react-router-dom';*/ } }
 
-import { FirebaseContext } from '../Firebase';
+
 { {/*import * as ROUTES from '../../constants/routes';*/ } }
 const SignUpPage = () => (
     <div>
-        <div class="row justify-content-center bg-white p-5"><p>SignUp</p></div>
+        <div class="row justify-content-center  bg-white p-5 " ><h1>SignUp</h1></div>
 
         <SignUpForm />
 
@@ -44,6 +45,7 @@ class SignUpFormBase extends Component {
                 this.setState({ error });
             });
         event.preventDefault();
+
     }
     onChange = event => {
         this.setState({ [event.target.name]: event.target.value });
@@ -55,6 +57,7 @@ class SignUpFormBase extends Component {
             email,
             passwordOne,
             passwordTwo,
+
             error,
         } = this.state;
 
@@ -67,49 +70,51 @@ class SignUpFormBase extends Component {
         return (
             <form onSubmit={this.onSubmit}>
                 <div class="row justify-content-center bg-white">
-                    <input
-                        name="username"
-                        class="col-12 my-2"
-                        value={username}
-                        onChange={this.onChange}
-                        type="text"
-                        placeholder="Full Name"
-                        style={{ borderTop: '0px', borderLeft: '0px', borderRight: '0px', borderColor: 'pink' }}
-                    />
-                    <input
-                        name="email"
-                        class="col-12 my-2"
-                        value={email}
-                        onChange={this.onChange}
-                        type="text"
-                        placeholder="Email Address"
-                        style={{ borderTop: '0px', borderLeft: '0px', borderRight: '0px', borderColor: 'pink' }}
-                    />
-                    <input
-                        name="passwordOne"
-                        class="col-12 my-2"
-                        value={passwordOne}
-                        onChange={this.onChange}
-                        type="password"
-                        placeholder="Password"
-                        style={{ borderTop: '0px', borderLeft: '0px', borderRight: '0px', borderColor: 'pink' }}
-                    />
-                    <input
-                        name="passwordTwo"
-                        class="col-12 my-2"
-                        value={passwordTwo}
-                        onChange={this.onChange}
-                        type="password"
-                        placeholder="Confirm Password"
-                        style={{ borderTop: '0px', borderLeft: '0px', borderRight: '0px', borderColor: 'pink' }}
-                    />
-                    <button disabled={isInvalid} type="submit">Sign Up</button>
-                    {error && <p>{error.message}</p>}
+                    <div className="col-6">
+                        <input
+                            name="username"
+                            class="col-12 my-2"
+                            value={username}
+                            onChange={this.onChange}
+                            type="text"
+                            placeholder="Full Name"
+
+                        />
+                        <input
+                            name="email"
+                            class="col-12 my-2"
+                            value={email}
+                            onChange={this.onChange}
+                            type="text"
+                            placeholder="Email Address"
+
+                        />
+                        <input
+                            name="passwordOne"
+                            class="col-12 my-2"
+                            value={passwordOne}
+                            onChange={this.onChange}
+                            type="password"
+                            placeholder="Password"
+
+                        />
+                        <input
+                            name="passwordTwo"
+                            class="col-12 my-2"
+                            value={passwordTwo}
+                            onChange={this.onChange}
+                            type="password"
+                            placeholder="Confirm Password"
+
+                        />
+                        <button class="btn btn-primary col-12 my-2" disabled={isInvalid} type="submit">Sign Up</button>
+                        {error && <p>{error.message}</p>}
+                    </div>
                 </div>
-            </form>
+            </form >
         );
     }
 }
 const SignUpForm = withFirebase(SignUpFormBase);
 export default SignUpPage;
-export { SignUpForm, SignUpLink };
+export { SignUpForm };

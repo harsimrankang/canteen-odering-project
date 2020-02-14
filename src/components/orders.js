@@ -56,8 +56,6 @@ class Orders extends Component {
 
 
 
-
-
                             <div className="card-bodybackground"> </div>
                           </div>
                         </div>
