@@ -21,20 +21,15 @@ class App extends Component {
     username: null
   };
   componentDidUpdate() {
-    /* if (this.state.user != null) {
-       this.props.firebase.db.ref("users/" + this.state.user.uid).once('value').then(function (snapshot) {
-         const user = (snapshot.val() && snapshot.val().username) || 'Anonymous';
-         if (this.state.username != user) { this.setState({ username: user }) }
-       })
-     }*/
+    /*if (this.state.user != null) {
+      this.props.firebase.db.ref("users/" + this.state.user.uid).once('value').then(function (snapshot) {
+        const user = (snapshot.val() && snapshot.val().username) || 'Anonymous';
+        if (this.state.username != user) { this.setState({ username: user }) }
+      })
+    }*/
   }
   componentDidMount() {
     this.props.firebase.auth.onAuthStateChanged(authUser => {
-      if (this.state.user == null && authUser != null) {
-        //let history = useHistory();
-        //history.push("/Mainpage");
-        //this.setState({ use: authUser });
-      }
       if (authUser != this.state.user)
         authUser
           ? this.setState({ user: authUser })
