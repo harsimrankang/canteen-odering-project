@@ -5,7 +5,7 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
 import Navbar from "./navbar";
 import Orders from "./orders";
-
+import Mainpage from "./mainpage";
 import SignUp from "./SignUp";
 import Login from "./Login";
 class App extends Component {
@@ -16,6 +16,9 @@ class App extends Component {
           <Navbar />
           <Switch>
 
+            <Route path="/Mainpage">
+              <Mainpage />
+            </Route>
             <Route path="/Orders">
               <Orders />
             </Route>
