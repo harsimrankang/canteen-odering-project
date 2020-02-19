@@ -10,7 +10,6 @@ import Mainpage from "./mainpage";
 import SignUp from "./SignUp";
 import Login from "./Login";
 
-
 class App extends Component {
   state = {
     user: null,
@@ -18,12 +17,12 @@ class App extends Component {
   }
 
   componentDidUpdate() {
-    /* if (this.state.user != null) {
-       this.props.firebase.db.ref("users/" + this.state.user.uid).once('value').then(function (snapshot) {
-         const user = (snapshot.val() && snapshot.val().username) || 'Anonymous';
-         if (this.state.username != user) { this.setState({ username: user }) }
-       })
-     }*/
+    /*if (this.state.user != null) {
+      this.props.firebase.db.ref("users/" + this.state.user.uid).once('value').then(function (snapshot) {
+        const user = (snapshot.val() && snapshot.val().username) || 'Anonymous';
+        if (this.state.username != user) { this.setState({ username: user }) }
+      })
+    }*/
   }
   componentDidMount() {
     this.props.firebase.auth.onAuthStateChanged(
@@ -33,6 +32,9 @@ class App extends Component {
             ? this.setState({ user: authUser })
             : this.setState({ user: null });
       });
+
+
+
   }
   render() {
     return (
