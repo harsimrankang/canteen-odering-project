@@ -1,8 +1,13 @@
 import React, { Component } from "react";
-import { HashRouter as Router, Switch, Route } from "react-router-dom";
+import {
+  HashRouter as Router,
+  Switch,
+  Route,
+  useHistory
+} from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
-import { withFirebase } from './Firebase'
+import { withFirebase } from "./Firebase";
 
 import Navbar from "./navbar";
 import Orders from "./orders";
@@ -10,13 +15,11 @@ import Mainpage from "./mainpage";
 import SignUp from "./SignUp";
 import Login from "./Login";
 
-
 class App extends Component {
   state = {
     user: null,
     username: null
-  }
-
+  };
   componentDidUpdate() {
     /* if (this.state.user != null) {
        this.props.firebase.db.ref("users/" + this.state.user.uid).once('value').then(function (snapshot) {
@@ -26,21 +29,24 @@ class App extends Component {
      }*/
   }
   componentDidMount() {
-    this.props.firebase.auth.onAuthStateChanged(
-      authUser => {
-        if (authUser != this.state.user)
-          authUser
-            ? this.setState({ user: authUser })
-            : this.setState({ user: null });
-      });
+    this.props.firebase.auth.onAuthStateChanged(authUser => {
+      if (this.state.user == null && authUser != null) {
+        //let history = useHistory();
+        //history.push("/Mainpage");
+        //this.setState({ use: authUser });
+      }
+      if (authUser != this.state.user)
+        authUser
+          ? this.setState({ user: authUser })
+          : this.setState({ user: null });
+    });
   }
   render() {
     return (
-      <Router basename='/'>
+      <Router basename="/">
         <div>
           <Navbar user={this.state.user} username={this.state.username} />
           <Switch>
-
             <Route path="/Mainpage">
               <Mainpage />
             </Route>
@@ -53,11 +59,7 @@ class App extends Component {
             <Route path="/SignUp">
               <SignUp />
             </Route>
-
-
           </Switch>
-
-
         </div>
       </Router>
     );
