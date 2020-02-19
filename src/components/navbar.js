@@ -16,13 +16,7 @@ class Navbar extends Component {
 
 
           {/*<Navigation />*/}
-
-          <div className="col-1">
-            <Link to="Login">SignIn</Link>
-          </div>
-          <div className="col-1">
-            <Link to="SignUp">SignUp</Link>
-          </div>
+          <Navigation user={this.props.user} username={this.props.username} />
 
         </div>
       </div>
