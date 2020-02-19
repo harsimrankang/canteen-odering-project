@@ -12,7 +12,6 @@ class Navbar extends Component {
         <div className="row">
           <div className="col-3">LA PINOZ MENU</div>
           <div className="col-6">
-            <Link to="Burgrill">Burgrill</Link>
           </div>
 
 
