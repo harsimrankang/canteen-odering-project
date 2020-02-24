@@ -62,7 +62,7 @@ class Orders extends Component {
                       </div>
                       <div className="col-12">
                         <div className="d-inline-flex">
-                          <div>
+                          <div className="row">
                             <h5 className="prices card-bodytext text-white">
                               medium :{this.state.menu[menuItem].medium}
                             </h5>

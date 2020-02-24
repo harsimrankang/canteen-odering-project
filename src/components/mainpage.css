@@ -40,3 +40,11 @@
     left:0px;
     
   }
+  .card-title:hover {
+      transition: all .2s ease-in-out; 
+transform: scale(1.1); 
+  }
+
+  .menutitlecard {
+    height:490px;
+  }
