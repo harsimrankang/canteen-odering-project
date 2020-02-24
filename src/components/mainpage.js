@@ -1,5 +1,31 @@
 import React, { Component } from "react";
 import "./mainpage.css";
+
+class CardItems extends Component {
+  render() {
+    return (
+      <div className="col-xs-12 col-md-6 col-xl-6">
+        <div
+          className="card bg-secondary m-1 my-2 embed-responsive embed-responsive-16by9"
+          style={{ overflow: "hidden" }}
+        >
+          <div class="card-body">
+            <div>
+              <h5 class="card-title d-inline-flex">{this.props.title}</h5>
+            </div>
+            <p class="card-text" style={{ height: "48px" }}>
+              {this.props.para}
+            </p>
+            <a href="#" class="btn btn-primary">
+              EXPLORE
+            </a>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
+
 class Mainpage extends Component {
   render() {
     return (
@@ -7,69 +33,29 @@ class Mainpage extends Component {
         <div class="bg">
           <div class="header-contents">
             <div class="main">
-              <h2 style={{ fontVariant: "small-caps", top: "50%", fontSize: "50px" }}>EAT.MEET.GREET</h2>
+              <h2
+                style={{
+                  fontVariant: "small-caps",
+                  top: "50%",
+                  fontSize: "50px"
+                }}
+              >
+                EAT.MEET.GREET
+              </h2>
             </div>
           </div>
         </div>
 
-        <div className="row">
-          <div className="col-xs-12 col-md-6 col-xl-6">
-
-            <div
-              className="menutitlecard card bg-secondary m-1 embed-responsive embed-responsive-16by9"
-              style={{ overflow: "hidden" }}
-            >
-              <div class="card-body">
-                <div> <h5 class="card-title d-inline-flex" >LA PINOZ</h5></div>
-                <p class="card-text">All the taste and toppings you want on a pizza, straight from our oven to your door!</p>
-                <a href="#" class="btn btn-primary">EXPLORE</a>
-              </div>
-            </div>
-          </div>
-
-
-
-          <div className=" col-xs-12 col-md-6 col-xl-6">
-
-            <div
-              className="menutitlecard card bg-secondary m-1 embed-responsive embed-responsive-16by9"
-              style={{ overflow: "hidden" }}
-            >
-              <div class="card-body">
-                <div> <h5 class="card-title d-inline-flex" >BURGRILL</h5></div>
-                <p class="card-text">Liscensed to grill.</p>
-                <a href="#" class="btn btn-primary">EXPLORE</a>
-              </div>
-            </div>
-          </div>
-          <div className="col-xs-12 col-md-6 col-xl-6">
-
-            <div
-              className="menutitlecard card bg-secondary m-1 embed-responsive embed-responsive-16by9"
-              style={{ overflow: "hidden" }}
-            >
-              <div class="card-body">
-                <div> <h5 class="card-title d-inline-flex" >TEA Q</h5></div>
-                <p class="card-text">Adding Moments of Perfect Sip.</p>
-                <a href="#" class="btn btn-primary">EXPLORE</a>
-              </div>
-            </div>
-          </div>
-          <div className="col-xs-12 col-md-6 col-xl-6">
-
-            <div
-              className="menutitlecard card bg-secondary m-1 embed-responsive embed-responsive-16by9"
-              style={{ overflow: "hidden" }}
-            >
-              <div class="card-body">
-
-                <h5 class="card-title d-inline-flex" >SQUARE ONE</h5>
-
-
-                <p class="card-text"> It's good mood food.</p>
-                <a href="#" class="btn btn-primary">EXPLORE</a>
-              </div>
-            </div>
+        <div className="container-fluid">
+          <div className="row">
+            <CardItems
+              title="LA PINOZ"
+              para="All the taste and toppings you want on a pizza, straight from
+                  our oven to your door!"
+            />
+            <CardItems title="BURGRILL" para="Liscensed to grill." />
+            <CardItems title="TEA Q" para="Adding Moments of Perfect Sip." />
+            <CardItems title="SQUARE ONE" para="It's good mood food." />
           </div>
         </div>
       </div>
