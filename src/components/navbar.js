@@ -1,5 +1,10 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import {
+  HashRouter as Router,
+  withRouter
+} from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { withFirebase } from "./Firebase";
 import Navigation from "./Navigation";
 class Navbar extends Component {
@@ -7,21 +12,35 @@ class Navbar extends Component {
     return (
       <div
         className="container-fluid bg-dark text-light"
-        style={{ width: "100%" }}
-      >
+        style={{ width: "100%" }} >
         <div className="row">
-          <div className="col-3">LA PINOZ MENU</div>
-          <div className="col-6">
-          </div>
+          <Router basename="/">
+            <div>
+              <Navbar user={this.state.user} username={this.state.username} />
+              if(this.props.location=="/Mainpage")
+            <div className="col-3">Mainpage</div>
 
+              <Route path="/Orders">
 
-          {/*<Navigation />*/}
-          <Navigation user={this.props.user} username={this.props.username} />
-
+              </Route>
+              <Route path="/Login">
+                <Login />
+              </Route>
+              <Route path="/SignUp">
+                <SignUp />
+              </Route>
+          </Switch>
         </div>
+      </Router>
+
+
+        {/*<Navigation />*/}
+        {/* <Navigation user={this.props.user} username={this.props.username} />*/}
+
       </div>
+      </div >
     );
   }
 }
 
-export default withFirebase(Navbar);
+export default withRouter(Navbar);
