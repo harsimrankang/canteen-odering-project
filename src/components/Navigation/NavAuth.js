@@ -6,16 +6,15 @@ import SignOut from '../SignOut';
 import Orders from '../orders';
 
 class NavAuth extends Component {
-
+    constructor(props) {
+        super(props);
+    }
     render() {
         return (
             <div>
-                <Link className="btn btn-dark" to='/Orders'>
 
-
-
-                </Link>
                 <SignOut />
+
             </div>
         );
     }

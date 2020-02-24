@@ -29,10 +29,9 @@ class App extends Component {
     }*/
   }
   componentDidMount() {
-<<<<<<< HEAD
     this.props.firebase.auth.onAuthStateChanged(
       authUser => {
-        if (this.state.user == null && authUser != null) this.props.history.push('/mainpage');
+        //if (this.state.user == null && authUser != null) this.props.history.push('/mainpage');
         if (authUser != this.state.user)
           authUser
             ? this.setState({ user: authUser })
@@ -41,14 +40,6 @@ class App extends Component {
 
 
 
-=======
-    this.props.firebase.auth.onAuthStateChanged(authUser => {
-      if (authUser != this.state.user)
-        authUser
-          ? this.setState({ user: authUser })
-          : this.setState({ user: null });
-    });
->>>>>>> e67b89c33ae5090fc8ce887f13bcfafd0d15bc66
   }
   render() {
     return (
