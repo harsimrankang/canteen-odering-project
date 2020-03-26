@@ -31,6 +31,7 @@ class App extends Component {
   componentDidMount() {
     this.props.firebase.auth.onAuthStateChanged(authUser => {
       //if (this.state.user == null && authUser != null) this.props.history.push('/mainpage');
+      console.log(authUser);
       if (authUser != this.state.user)
         authUser
           ? this.setState({ user: authUser })
