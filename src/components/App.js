@@ -14,6 +14,7 @@ import Orders from "./orders";
 import Mainpage from "./mainpage";
 import SignUp from "./SignUp";
 import Login from "./Login";
+import AddItems from "./AddItems";
 
 class App extends Component {
   state = {
@@ -55,6 +56,9 @@ class App extends Component {
             </Route>
             <Route path="/SignUp">
               <SignUp />
+            </Route>
+            <Route path="/AddItems">
+              <AddItems />
             </Route>
           </Switch>
         </div>
