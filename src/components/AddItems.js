@@ -1,13 +1,55 @@
 import React, { Component } from "react";
 //import "./addItems.css";
 
+/**
+ * @summary
+ * AddItems is a Component to edit Items in database on firebase.
+ *
+ * @description
+ * AddItems Component is used to easily insert and modify data in the firebase realtime database without requiring to work in JSON.
+ *
+ *
+ */
 class AddItems extends Component {
+  /**
+   * @summary
+   * This is the state of the component.
+   *
+   * @description
+   * state contains data about.
+   *
+   */
   state = {
     fetchedData: null,
-    selectedCategories: ["food", "hello", "what"],
+    vendors: [],
+    sizes: [],
+    selectedCategories: [],
     searchedCategories: [],
-    vendors: []
+    selectedSizes: []
   };
+  addToCategory = item => {
+    var i = 0;
+    let categories = this.state.selectedCategories;
+    for (i = 0; i < categories.length; i++) {
+      if (categories[i] == item) {
+        return;
+      }
+    }
+    categories.push(item);
+    this.setState({ menuCategories: categories });
+  };
+  changeVendor = vendor => {
+    //change vendor here
+    this.setState({ selectedVendor: vendor });
+    //var vendors = this.state.vendors;
+    //if (this.state.selectedVendor != null) {
+    //  vendors.push(this.state.selectedVendor);
+    // }
+    //this.setState({ selectedVendor: vendor, vendors: vendors });
+  };
+  componentDidMount() {
+    this.fetchData();
+  }
   fetchData = () => {
     fetch("https://canteen-ordering-3d30c.firebaseio.com/public.json")
       .then(res => res.json())
@@ -27,6 +69,48 @@ class AddItems extends Component {
           vendors: vend
         });
       });
+  };
+  processCategoryInput = () => {
+    var input = document.getElementById("categoryInput").value;
+    var flag = false;
+    var categories = [];
+    //console.log(this.state.fetchedData["menuCategories"].length);
+    //for (var i = 0; i < this.state.fetchedData["menuCategories"].length; i++) {
+    Object.values(this.state.fetchedData["menuCategories"]).forEach(obj => {
+      //var obj = this.state.fetchedData["menuCategories"][i];
+      var value = obj;
+      //console.log("debug");
+      console.log(value);
+      for (var j = 0; j < value.length; j++) {
+        console.log(input);
+        if (input[0] == value[j]) {
+          flag = true;
+          console.log("debug");
+          for (var l = 0; l < input.length; l++) {
+            if (value[j + l] != input[l]) {
+              flag = false;
+              break;
+            }
+          }
+          if (flag == true) {
+            categories.push(value);
+            console.log("debug");
+          }
+        }
+      }
+    });
+    this.setState({ searchedCategories: categories });
+  };
+  removeFromCategory = item => {
+    var i = 0;
+    let categories = this.state.selectedCategories;
+    for (i = 0; i < categories.length; i++) {
+      if (categories[i] == item) {
+        categories.splice(i, 1);
+        break;
+      }
+    }
+    this.setState({ menuCategories: categories });
   };
   showData = () => {
     if (this.state.fetchedData == null) {
@@ -69,28 +153,6 @@ class AddItems extends Component {
       );
     }
   };
-  addToCategory = item => {
-    var i = 0;
-    let categories = this.state.selectedCategories;
-    for (i = 0; i < categories.length; i++) {
-      if (categories[i] == item) {
-        return;
-      }
-    }
-    categories.push(item);
-    this.setState({ menuCategories: categories });
-  };
-  removeFromCategory = item => {
-    var i = 0;
-    let categories = this.state.selectedCategories;
-    for (i = 0; i < categories.length; i++) {
-      if (categories[i] == item) {
-        categories.splice(i, 1);
-        break;
-      }
-    }
-    this.setState({ menuCategories: categories });
-  };
   showSelectedCategories = () => {
     if (this.state.selectedCategories.length == 0) {
       return <div className="text-muted">No selected Categories</div>;
@@ -112,6 +174,15 @@ class AddItems extends Component {
       );
     }
   };
+  showSelectedVendor = () => {
+    if (this.state.selectedVendor != null) {
+      return (
+        <button className="btn btn-primary m-1">
+          {this.state.selectedVendor["name"]}
+        </button>
+      );
+    }
+  };
   showVendors = () => {
     if (this.state.fetchedData == null) {
       return <div>Loading Vendors</div>;
@@ -124,43 +195,13 @@ class AddItems extends Component {
         </div>
       );
   };
-  processCategoryInput = () => {
-    var input = document.getElementById("categoryInput").value;
-    var flag = false;
-    var categories = [];
-    //console.log(this.state.fetchedData["menuCategories"].length);
-    //for (var i = 0; i < this.state.fetchedData["menuCategories"].length; i++) {
-    Object.values(this.state.fetchedData["menuCategories"]).forEach(obj => {
-      //var obj = this.state.fetchedData["menuCategories"][i];
-      var value = obj;
-      //console.log("debug");
-      console.log(value);
-      for (var j = 0; j < value.length; j++) {
-        console.log(input);
-        if (input[0] == value[j]) {
-          flag = true;
-          console.log("debug");
-          for (var l = 0; l < input.length; l++) {
-            if (value[j + l] != input[l]) {
-              flag = false;
-              break;
-            }
-          }
-          if (flag == true) {
-            categories.push(value);
-            console.log("debug");
-          }
-        }
-      }
-    });
-    this.setState({ searchedCategories: categories });
-  };
-  componentDidMount() {
-    this.fetchData();
-  }
+
   render() {
     return (
       <div className="row col-12">
+        {/**
+         * Showing current items here
+         */}
         <div className="col-6" id="databaseItems">
           {/*Object.keys(this.state.fetchedData).map(menuCategories => {
             console.log(this.state.fetchedData);
@@ -168,15 +209,25 @@ class AddItems extends Component {
           })*/
           this.showData()}
         </div>
+        {/**
+         * entering new items here
+         */}
         <div className="col-4 card bg-light shadow">
           <div className="card-body px-2 " id="addItemInterface">
             <div>Name</div>
             <input id="name" type="text"></input>
-            <div>Vendor</div>
-            <input id="vendor" type="text"></input>
+            <div>Vendor{this.showSelectedVendor()}</div>
+
             {//this.showVendors()
             this.state.vendors.map((item, key) => (
-              <div>{item["name"]}</div>
+              <button
+                className="btn btn-secondary m-1"
+                onClick={() => {
+                  this.changeVendor(item);
+                }}
+              >
+                {item["name"]}
+              </button>
             ))}
             <div>
               <input id="veg" type="checkbox" name="veg"></input>
