@@ -333,12 +333,7 @@ class AddItems extends Component {
           <div className="card bg-light shadow">
             <div className="card-body px-2 text-dark">
               <h3 className="card-title py-0 my-0">Menu Items</h3>
-              <div
-                className="py-0 my-0 my-auto border-top"
-                //style={{ borderTop: "solid" }}
-              >
-                {this.state.fetchedData["NumberOfItems"]} Items
-              </div>
+
               <div className="d-flex">
                 <div className="col-4">Name</div>
                 <div className="col-2">Vendor</div>
@@ -384,14 +379,14 @@ class AddItems extends Component {
                         ).map(size => {
                           return (
                             <div className="d-flex">
-                              <div className="col-6 bg-primary rounded text-white px-2">
+                              <div className="col-6 bg-primary rounded-left text-white px-2">
                                 {
                                   this.state.items[item]["value"]["price"][
                                     size
                                   ]["size"]
                                 }
                               </div>
-                              <div className="col-6 bg=primary flex-grow-1 rounded border text-black bg-light px-2">
+                              <div className="col-6 bg=primary flex-grow-1 rounded-right  text-black bg-light px-2">
                                 {
                                   this.state.items[item]["value"]["price"][
                                     size
