@@ -253,9 +253,9 @@ class AddItems extends Component {
     } else {
       return (
         <div>
-          {Object.keys(this.state.fetchedData).map(menuCategories => {
+          {Object.keys(this.state.fetchedData).map(data => {
             //console.log(this.state.fetchedData[menuCategories]);
-            if (menuCategories == "items")
+            if (data == "items")
               return (
                 <div className="card bg-light shadow">
                   <div className="card-body px-2 text-dark">
@@ -266,20 +266,17 @@ class AddItems extends Component {
                     >
                       {this.state.fetchedData["NumberOfItems"]} Items
                     </div>
-                    {Object.keys(this.state.fetchedData[menuCategories]).map(
-                      items => {
-                        return (
-                          <div className="card ">
-                            <div className="card-body bg-white text-dark border-top py-1">
-                              {
-                                this.state.fetchedData[menuCategories][items]
-                                  .name
-                              }
+                    {Object.keys(this.state.fetchedData[data]).map(items => {
+                      return (
+                        <div className="card ">
+                          <div className="card-body bg-white text-dark border-top py-1">
+                            <div className="font-weight-bold">
+                              {this.state.fetchedData[data][items].name}
                             </div>
                           </div>
-                        );
-                      }
-                    )}
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
               );
@@ -337,7 +334,7 @@ class AddItems extends Component {
         {/**
          * Showing current items here
          */}
-        <div className="col-6" id="databaseItems">
+        <div className="col-8" id="databaseItems">
           {/*Object.keys(this.state.fetchedData).map(menuCategories => {
             console.log(this.state.fetchedData);
             return <div>data</div>;
@@ -401,7 +398,7 @@ class AddItems extends Component {
                     <div className="dropdown-content row mt-1">
                       {this.state.searchedCategories.map((item, key) => (
                         <button
-                          className="btn bg-secondary text-light mx-1"
+                          className="btn bg-secondary text-light mx-1 mt-1"
                           key={key}
                           onClick={() => {
                             this.addToCategory(item);
