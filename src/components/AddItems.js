@@ -22,13 +22,14 @@ class AddItems extends Component {
    */
   state = {
     fetchedData: null,
-    vendors: [],
-    selectedVendor: null,
-    sizes: [],
-    selectedCategories: [],
-    searchedCategories: [],
-    selectedSizes: [],
-    unselectedSizes: []
+    vendors: [], //all Vendors
+    selectedVendor: null, //Selected Vendor
+    allSizes: [], //All Sizes
+    selectedSizes: [], //Selected Sizes
+    unselectedSizes: [], //Sizes that are currently unselected
+    selectedCategories: [], //Selected Categories
+    searchedCategories: [], //Currently Searched Categories
+    allCategories: [] //All Categories
   };
   addToSelectedPrices = item => {
     var unselSizes = this.state.unselectedSizes;
@@ -46,17 +47,48 @@ class AddItems extends Component {
     });
   };
 
-  addToCategory = item => {
+  addToSelectedCategories = item => {
     var i = 0;
     let categories = this.state.selectedCategories;
-    console.log(categories);
     for (i = 0; i < categories.length; i++) {
-      if (categories[i] == item) {
+      if (categories[i]["id"] == item["id"]) {
         return;
       }
     }
     categories.push(item);
     this.setState({ selectedCategories: categories });
+  };
+  addNewCategory = () => {
+    var value = document.getElementById("categoryName").value;
+    document.getElementById("categoryName").value = "";
+    if (value != "") {
+      var updates = {};
+      var key = this.props.firebase.db
+        .ref()
+        .child("public/menuCategories")
+        .push().key;
+
+      updates["public/menuCategories/" + key] = value;
+      return this.props.firebase.db.ref().update(updates);
+    } else {
+      alert("Check Data");
+    }
+  };
+  addNewSize = () => {
+    var value = document.getElementById("sizeName").value;
+    document.getElementById("sizeName").value = "";
+    if (value != "") {
+      var updates = {};
+      var key = this.props.firebase.db
+        .ref()
+        .child("public/sizeCategories")
+        .push().key;
+
+      updates["public/sizeCategories/" + key] = value;
+      return this.props.firebase.db.ref().update(updates);
+    } else {
+      alert("Check Data");
+    }
   };
   changeVendor = vendor => {
     //change vendor here
@@ -74,28 +106,36 @@ class AddItems extends Component {
     this.props.firebase.db.ref("public").on("value", snapshot => {
       console.log("updated");
       var res = snapshot.val();
-      console.log(res);
+      //console.log(res);
+
       var allCategories = [];
-      Object.values(res["menuCategories"]).forEach(value => {
-        allCategories.push(value);
+      Object.keys(res["menuCategories"]).forEach(key => {
+        //allCategories.push({ key: res["menuCategories"][key] });
+        //allCategories[key] = res["menuCategories"][key];
+        allCategories.push({ id: key, value: res["menuCategories"][key] });
       });
 
       var vendors = [];
-      Object.values(res["vendors"]).forEach(value => {
-        vendors.push(value);
+      Object.keys(res["vendors"]).forEach(key => {
+        //vendors.push(value);
+        //vendors[key] = res["vendors"][key];
+        vendors.push({ id: key, value: res["vendors"][key] });
       });
 
-      var unselectedSizes = [];
+      var allSizes = [];
       Object.values(res["sizeCategories"]).forEach(value => {
-        unselectedSizes.push(value);
+        allSizes.push(value);
       });
+
+      console.log(vendors);
 
       this.setState({
         fetchedData: res,
         searchedCategories: allCategories,
         allCategories: allCategories,
         vendors: vendors,
-        unselectedSizes: unselectedSizes,
+        unselectedSizes: allSizes,
+        allSizes: allSizes,
         selectedSizes: []
       });
     });
@@ -170,7 +210,7 @@ class AddItems extends Component {
     var i = 0;
     let categories = this.state.selectedCategories;
     for (i = 0; i < categories.length; i++) {
-      if (categories[i] == item) {
+      if (categories[i]["id"] == item["id"]) {
         categories.splice(i, 1);
         break;
       }
@@ -216,6 +256,7 @@ class AddItems extends Component {
     var categories = this.state.selectedCategories;
     var sizes = this.state.selectedSizes;
     if (this.validateData(name, vendor, categories, sizes)) {
+      document.getElementById("itemName").value = "";
       var prices = {};
       for (var i = 0; i < sizes.length; i++) {
         prices[i] = {
@@ -225,12 +266,12 @@ class AddItems extends Component {
       }
       var menuCategories = {};
       for (var i = 0; i < categories.length; i++) {
-        menuCategories[i] = categories[i];
+        menuCategories[categories[i]["id"]] = categories[i]["value"];
       }
       var itemData = {
         name: name,
         veg: veg,
-        vendor: vendor["name"],
+        vendor: vendor["value"]["name"],
         price: prices,
         menuCategories: menuCategories
       };
@@ -244,7 +285,7 @@ class AddItems extends Component {
       updates["public/items/" + key] = itemData;
       return this.props.firebase.db.ref().update(updates);
     } else {
-      alert("check data");
+      alert("Check Data");
     }
   };
   showData = () => {
@@ -291,15 +332,15 @@ class AddItems extends Component {
     } else {
       return (
         <div className="row px-3">
-          {this.state.selectedCategories.map((item, key) => (
+          {this.state.selectedCategories.map(item => (
             <button
               className="btn  mx-1 btn-primary text-light"
-              key={key}
+              key={item["id"]}
               onClick={() => {
                 this.removeFromCategory(item);
               }}
             >
-              {item}
+              {item["value"]}
             </button>
           ))}
         </div>
@@ -310,7 +351,7 @@ class AddItems extends Component {
     if (this.state.selectedVendor != null) {
       return (
         <button className="btn btn-primary m-1">
-          {this.state.selectedVendor["name"]}
+          {this.state.selectedVendor["value"]["name"]}
         </button>
       );
     }
@@ -353,7 +394,12 @@ class AddItems extends Component {
               {/* -----Name here----- */}
               <div className="border-top mt-2">
                 <div className="font-weight-bold">Name</div>
-                <input id="itemName" type="text"></input>
+                <input
+                  className="col-12"
+                  id="itemName"
+                  type="text"
+                  placeholder="Name of item..."
+                ></input>
               </div>
               {/* -----vendors here----- */}
               <div className="border-top mt-2">
@@ -361,14 +407,14 @@ class AddItems extends Component {
                   Vendor{this.showSelectedVendor()}
                 </div>
                 {//this.showVendors()
-                this.state.vendors.map((item, key) => (
+                this.state.vendors.map(item => (
                   <button
                     className="btn btn-secondary m-1"
                     onClick={() => {
                       this.changeVendor(item);
                     }}
                   >
-                    {item["name"]}
+                    {item["value"]["name"]}
                   </button>
                 ))}
               </div>
@@ -396,15 +442,14 @@ class AddItems extends Component {
                   ></input>
                   <div className="col-12">
                     <div className="dropdown-content row mt-1">
-                      {this.state.searchedCategories.map((item, key) => (
+                      {this.state.searchedCategories.map(item => (
                         <button
                           className="btn bg-secondary text-light mx-1 mt-1"
-                          key={key}
                           onClick={() => {
-                            this.addToCategory(item);
+                            this.addToSelectedCategories(item);
                           }}
                         >
-                          {item}
+                          {item["value"]}
                         </button>
                       ))}
                     </div>
@@ -457,7 +502,63 @@ class AddItems extends Component {
             </div>
           </div>
           <div className="card my-2">
-            <div className="card-body">Add Categories Here</div>
+            {/* -----Categories Here----- */}
+            <div className="card-body col-12">
+              <h3>Add Categories</h3>
+              <div className="btn-group col-12 mx-0 px-0">
+                <input
+                  className="flex-grow-1"
+                  id="categoryName"
+                  placeholder="Name of Category"
+                ></input>
+                <button
+                  className="btn btn-primary"
+                  onClick={() => {
+                    this.addNewCategory();
+                  }}
+                >
+                  Add Category
+                </button>
+              </div>
+            </div>
+            {/* -----Add Sizes----- */}
+            <div className="card-body col-12">
+              <h3>Add Sizes</h3>
+              <div className="btn-group col-12 mx-0 px-0">
+                <input
+                  className="flex-grow-1"
+                  id="sizeName"
+                  placeholder="Size..."
+                ></input>
+                <button
+                  className="btn btn-primary"
+                  onClick={() => {
+                    this.addNewSize();
+                  }}
+                >
+                  Add Size
+                </button>
+              </div>
+            </div>
+            {/* -----Add Vendors----- */}
+            <div className="card-body col-12">
+              <h3>Add Vendor</h3>
+              <div className="btn-group col-12 mx-0 px-0">
+                <input
+                  className="flex-grow-1"
+                  id="sizeName"
+                  placeholder="Size..."
+                ></input>
+                <button
+                  className="btn btn-primary"
+                  onClick={() => {
+                    this.addNewSize();
+                  }}
+                >
+                  Add Vendor
+                </button>
+              </div>
+            </div>
           </div>
         </div>
         <div className="col-4" id="addOtherInterface"></div>
