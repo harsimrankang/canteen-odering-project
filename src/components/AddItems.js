@@ -22,6 +22,7 @@ class AddItems extends Component {
    */
   state = {
     fetchedData: null,
+    items: null,
     vendors: [], //all Vendors
     selectedVendor: null, //Selected Vendor
     allSizes: [], //All Sizes
@@ -32,10 +33,10 @@ class AddItems extends Component {
     allCategories: [] //All Categories
   };
   addToSelectedPrices = item => {
-    var unselSizes = this.state.unselectedSizes;
-    for (var i = 0; i < unselSizes.length; i++) {
-      if (item == unselSizes[i]) {
-        unselSizes.splice(i, 1);
+    var unselectedSizes = this.state.unselectedSizes;
+    for (var i = 0; i < unselectedSizes.length; i++) {
+      if (item["id"] == unselectedSizes[i]["id"]) {
+        unselectedSizes.splice(i, 1);
       }
     }
     var selectedSizes = this.state.selectedSizes;
@@ -43,7 +44,7 @@ class AddItems extends Component {
     selectedSizes.push(item);
     this.setState({
       selectedSizes: selectedSizes,
-      unselectedSizes: unselSizes
+      unselectedSizes: unselectedSizes
     });
   };
 
@@ -68,7 +69,7 @@ class AddItems extends Component {
         .child("public/menuCategories")
         .push().key;
 
-      updates["public/menuCategories/" + key] = value;
+      updates["public/menuCategories/" + key] = { name: value };
       return this.props.firebase.db.ref().update(updates);
     } else {
       alert("Check Data");
@@ -76,8 +77,8 @@ class AddItems extends Component {
   };
   addNewSize = () => {
     var value = document.getElementById("sizeName").value;
-    document.getElementById("sizeName").value = "";
     if (value != "") {
+      document.getElementById("sizeName").value = "";
       var updates = {};
       var key = this.props.firebase.db
         .ref()
@@ -85,6 +86,22 @@ class AddItems extends Component {
         .push().key;
 
       updates["public/sizeCategories/" + key] = value;
+      return this.props.firebase.db.ref().update(updates);
+    } else {
+      alert("Check Data");
+    }
+  };
+  addNewVendor = () => {
+    var value = document.getElementById("vendorName").value;
+    if (value != "") {
+      document.getElementById("vendorName").value = "";
+      var updates = {};
+      var key = this.props.firebase.db
+        .ref()
+        .child("public/vendors")
+        .push().key;
+
+      updates["public/vendors/" + key] = { name: value };
       return this.props.firebase.db.ref().update(updates);
     } else {
       alert("Check Data");
@@ -123,14 +140,21 @@ class AddItems extends Component {
       });
 
       var allSizes = [];
-      Object.values(res["sizeCategories"]).forEach(value => {
-        allSizes.push(value);
+      Object.keys(res["sizeCategories"]).forEach(key => {
+        allSizes.push({ id: key, value: res["sizeCategories"][key] });
       });
 
+      var items = [];
+      Object.keys(res["items"]).forEach(key => {
+        //allCategories.push({ key: res["menuCategories"][key] });
+        //allCategories[key] = res["menuCategories"][key];
+        items.push({ id: key, value: res["items"][key] });
+      });
       console.log(vendors);
 
       this.setState({
         fetchedData: res,
+        items: items,
         searchedCategories: allCategories,
         allCategories: allCategories,
         vendors: vendors,
@@ -139,6 +163,9 @@ class AddItems extends Component {
         selectedSizes: []
       });
     });
+  };
+  deleteItem = item => {
+    this.props.firebase.db.ref("/public/items/" + item).remove();
   };
   fetchData = () => {
     this.dataListener();
@@ -172,9 +199,9 @@ class AddItems extends Component {
     var input = document.getElementById("categoryInput").value;
     input = input.toUpperCase();
     var flag = false;
-    var categories = [];
+    var categories = this.state.allCategories;
     //if (input.length != 0) {
-    Object.values(this.state.fetchedData["menuCategories"]).forEach(obj => {
+    Object.values(categories).forEach(obj => {
       var value = obj.toUpperCase();
       console.log(value);
       for (var j = 0; j < value.length; j++) {
@@ -222,7 +249,7 @@ class AddItems extends Component {
     var unselectedSizes = this.state.unselectedSizes;
     unselectedSizes.push(item);
     for (var i = 0; i < selectedSizes.length; i++) {
-      if (selectedSizes[i] == item) {
+      if (selectedSizes[i]["id"] == item["id"]) {
         selectedSizes.splice(i, 1);
         break;
       }
@@ -243,7 +270,7 @@ class AddItems extends Component {
       return false;
     }
     for (var i = 0; i < sizes.length; i++) {
-      if (document.getElementById(sizes[i]).value == "") {
+      if (document.getElementById(sizes[i]["value"]).value == "") {
         return false;
       }
     }
@@ -257,13 +284,15 @@ class AddItems extends Component {
     var sizes = this.state.selectedSizes;
     if (this.validateData(name, vendor, categories, sizes)) {
       document.getElementById("itemName").value = "";
+
       var prices = {};
       for (var i = 0; i < sizes.length; i++) {
-        prices[i] = {
-          size: sizes[i],
-          price: document.getElementById(sizes[i]).value
+        prices[sizes[i]["id"]] = {
+          size: sizes[i]["value"],
+          price: document.getElementById(sizes[i]["value"]).value
         };
       }
+
       var menuCategories = {};
       for (var i = 0; i < categories.length; i++) {
         menuCategories[categories[i]["id"]] = categories[i]["value"];
@@ -289,39 +318,96 @@ class AddItems extends Component {
     }
   };
   showData = () => {
-    if (this.state.fetchedData == null) {
-      return <div>Fetching Data</div>;
+    if (this.state.items == null) {
+      return (
+        <div className="card bg-light shadow">
+          <div className="card-body px-2 text-dark">
+            <h3 className="card-title py-0 my-0">Menu Items</h3>
+            <div className="py-0 my-0 my-auto border-top">Loading Items</div>
+          </div>
+        </div>
+      );
     } else {
       return (
         <div>
-          {Object.keys(this.state.fetchedData).map(data => {
-            //console.log(this.state.fetchedData[menuCategories]);
-            if (data == "items")
-              return (
-                <div className="card bg-light shadow">
-                  <div className="card-body px-2 text-dark">
-                    <h3 className="card-title py-0 my-0">Menu Items</h3>
-                    <div
-                      className="py-0 my-0 my-auto border-top"
-                      //style={{ borderTop: "solid" }}
-                    >
-                      {this.state.fetchedData["NumberOfItems"]} Items
-                    </div>
-                    {Object.keys(this.state.fetchedData[data]).map(items => {
-                      return (
-                        <div className="card ">
-                          <div className="card-body bg-white text-dark border-top py-1">
-                            <div className="font-weight-bold">
-                              {this.state.fetchedData[data][items].name}
+          <div className="card bg-light shadow">
+            <div className="card-body px-2 text-dark">
+              <h3 className="card-title py-0 my-0">Menu Items</h3>
+              <div
+                className="py-0 my-0 my-auto border-top"
+                //style={{ borderTop: "solid" }}
+              >
+                {this.state.fetchedData["NumberOfItems"]} Items
+              </div>
+              <div className="d-flex">
+                <div className="col-4">Name</div>
+                <div className="col-2">Vendor</div>
+                <div className="col-3">Categories</div>
+                <div className="col-3">sizes</div>
+              </div>
+              {Object.keys(this.state.items).map(item => {
+                return (
+                  <div className="card ">
+                    <div className="card-body d-flex bg-white text-dark border-top py-1">
+                      <div className="col-4 font-weight-bold">
+                        <div>{this.state.items[item]["value"]["name"]}</div>
+                        <button
+                          className="bg-danger rounded px-2 border text-white"
+                          onClick={() => {
+                            this.deleteItem(this.state.items[item]["id"]);
+                          }}
+                        >
+                          Delete
+                        </button>
+                      </div>
+                      <div className="col-2">
+                        {this.state.items[item]["value"]["vendor"]}
+                      </div>
+                      <div className="col-3">
+                        {Object.keys(
+                          this.state.items[item]["value"]["menuCategories"]
+                        ).map(category => {
+                          return (
+                            <div className="d-inline-flex bg-light rounded text-muted px-2">
+                              {
+                                this.state.items[item]["value"][
+                                  "menuCategories"
+                                ][category]["name"]
+                              }
                             </div>
-                          </div>
-                        </div>
-                      );
-                    })}
+                          );
+                        })}
+                      </div>
+                      <div className="col-3">
+                        {Object.keys(
+                          this.state.items[item]["value"]["price"]
+                        ).map(size => {
+                          return (
+                            <div className="d-flex">
+                              <div className="col-6 bg-primary rounded text-white px-2">
+                                {
+                                  this.state.items[item]["value"]["price"][
+                                    size
+                                  ]["size"]
+                                }
+                              </div>
+                              <div className="col-6 bg=primary flex-grow-1 rounded border text-black bg-light px-2">
+                                {
+                                  this.state.items[item]["value"]["price"][
+                                    size
+                                  ]["price"]
+                                }
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
                   </div>
-                </div>
-              );
-          })}
+                );
+              })}
+            </div>
+          </div>
         </div>
       );
     }
@@ -334,13 +420,13 @@ class AddItems extends Component {
         <div className="row px-3">
           {this.state.selectedCategories.map(item => (
             <button
-              className="btn  mx-1 btn-primary text-light"
+              className="btn  mx-1 mt-1 btn-primary text-light"
               key={item["id"]}
               onClick={() => {
                 this.removeFromCategory(item);
               }}
             >
-              {item["value"]}
+              {item["value"]["name"]}
             </button>
           ))}
         </div>
@@ -449,7 +535,7 @@ class AddItems extends Component {
                             this.addToSelectedCategories(item);
                           }}
                         >
-                          {item["value"]}
+                          {item["value"]["name"]}
                         </button>
                       ))}
                     </div>
@@ -468,23 +554,23 @@ class AddItems extends Component {
                           this.removeFromSelectedSizes(item);
                         }}
                       >
-                        {item}
+                        {item["value"]}
                       </button>
                       <input
                         className="flex-grow-1"
-                        id={item}
+                        id={item["value"]}
                         type="number"
                       ></input>
                     </div>
                   ))}
-                  {this.state.unselectedSizes.map((item, key) => (
+                  {this.state.unselectedSizes.map(item => (
                     <button
                       className="btn btn-secondary m-1"
                       onClick={() => {
                         this.addToSelectedPrices(item);
                       }}
                     >
-                      {item}
+                      {item["value"]}
                     </button>
                   ))}
                 </div>
@@ -546,13 +632,13 @@ class AddItems extends Component {
               <div className="btn-group col-12 mx-0 px-0">
                 <input
                   className="flex-grow-1"
-                  id="sizeName"
+                  id="vendorName"
                   placeholder="Size..."
                 ></input>
                 <button
                   className="btn btn-primary"
                   onClick={() => {
-                    this.addNewSize();
+                    this.addNewVendor();
                   }}
                 >
                   Add Vendor
