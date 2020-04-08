@@ -30,9 +30,9 @@ class AddItems extends Component {
     unselectedSizes: [], //Sizes that are currently unselected
     selectedCategories: [], //Selected Categories
     searchedCategories: [], //Currently Searched Categories
-    allCategories: [] //All Categories
+    allCategories: [], //All Categories
   };
-  addToSelectedPrices = item => {
+  addToSelectedPrices = (item) => {
     var unselectedSizes = this.state.unselectedSizes;
     for (var i = 0; i < unselectedSizes.length; i++) {
       if (item["id"] == unselectedSizes[i]["id"]) {
@@ -44,11 +44,11 @@ class AddItems extends Component {
     selectedSizes.push(item);
     this.setState({
       selectedSizes: selectedSizes,
-      unselectedSizes: unselectedSizes
+      unselectedSizes: unselectedSizes,
     });
   };
 
-  addToSelectedCategories = item => {
+  addToSelectedCategories = (item) => {
     var i = 0;
     let categories = this.state.selectedCategories;
     for (i = 0; i < categories.length; i++) {
@@ -96,10 +96,7 @@ class AddItems extends Component {
     if (value != "") {
       document.getElementById("vendorName").value = "";
       var updates = {};
-      var key = this.props.firebase.db
-        .ref()
-        .child("public/vendors")
-        .push().key;
+      var key = this.props.firebase.db.ref().child("public/vendors").push().key;
 
       updates["public/vendors/" + key] = { name: value };
       return this.props.firebase.db.ref().update(updates);
@@ -107,7 +104,7 @@ class AddItems extends Component {
       alert("Check Data");
     }
   };
-  changeVendor = vendor => {
+  changeVendor = (vendor) => {
     //change vendor here
     this.setState({ selectedVendor: vendor });
     //var vendors = this.state.vendors;
@@ -120,32 +117,32 @@ class AddItems extends Component {
     this.fetchData();
   }
   dataListener = () => {
-    this.props.firebase.db.ref("public").on("value", snapshot => {
+    this.props.firebase.db.ref("public").on("value", (snapshot) => {
       console.log("updated");
       var res = snapshot.val();
       //console.log(res);
 
       var allCategories = [];
-      Object.keys(res["menuCategories"]).forEach(key => {
+      Object.keys(res["menuCategories"]).forEach((key) => {
         //allCategories.push({ key: res["menuCategories"][key] });
         //allCategories[key] = res["menuCategories"][key];
         allCategories.push({ id: key, value: res["menuCategories"][key] });
       });
 
       var vendors = [];
-      Object.keys(res["vendors"]).forEach(key => {
+      Object.keys(res["vendors"]).forEach((key) => {
         //vendors.push(value);
         //vendors[key] = res["vendors"][key];
         vendors.push({ id: key, value: res["vendors"][key] });
       });
 
       var allSizes = [];
-      Object.keys(res["sizeCategories"]).forEach(key => {
+      Object.keys(res["sizeCategories"]).forEach((key) => {
         allSizes.push({ id: key, value: res["sizeCategories"][key] });
       });
 
       var items = [];
-      Object.keys(res["items"]).forEach(key => {
+      Object.keys(res["items"]).forEach((key) => {
         //allCategories.push({ key: res["menuCategories"][key] });
         //allCategories[key] = res["menuCategories"][key];
         items.push({ id: key, value: res["items"][key] });
@@ -160,11 +157,11 @@ class AddItems extends Component {
         vendors: vendors,
         unselectedSizes: allSizes,
         allSizes: allSizes,
-        selectedSizes: []
+        selectedSizes: [],
       });
     });
   };
-  deleteItem = item => {
+  deleteItem = (item) => {
     this.props.firebase.db.ref("/public/items/" + item).remove();
   };
   fetchData = () => {
@@ -201,7 +198,7 @@ class AddItems extends Component {
     var flag = false;
     var categories = this.state.allCategories;
     //if (input.length != 0) {
-    Object.values(categories).forEach(obj => {
+    Object.values(categories).forEach((obj) => {
       var value = obj.toUpperCase();
       console.log(value);
       for (var j = 0; j < value.length; j++) {
@@ -233,7 +230,7 @@ class AddItems extends Component {
     // }
     this.setState({ searchedCategories: categories });
   };
-  removeFromCategory = item => {
+  removeFromCategory = (item) => {
     var i = 0;
     let categories = this.state.selectedCategories;
     for (i = 0; i < categories.length; i++) {
@@ -244,7 +241,7 @@ class AddItems extends Component {
     }
     this.setState({ selectedCategories: categories });
   };
-  removeFromSelectedSizes = item => {
+  removeFromSelectedSizes = (item) => {
     var selectedSizes = this.state.selectedSizes;
     var unselectedSizes = this.state.unselectedSizes;
     unselectedSizes.push(item);
@@ -256,7 +253,7 @@ class AddItems extends Component {
     }
     this.setState({
       selectedSizes: selectedSizes,
-      unselectedSizes: unselectedSizes
+      unselectedSizes: unselectedSizes,
     });
   };
   validateData = (name, vendor, categories, sizes) => {
@@ -289,7 +286,7 @@ class AddItems extends Component {
       for (var i = 0; i < sizes.length; i++) {
         prices[sizes[i]["id"]] = {
           size: sizes[i]["value"],
-          price: document.getElementById(sizes[i]["value"]).value
+          price: document.getElementById(sizes[i]["value"]).value,
         };
       }
 
@@ -302,13 +299,10 @@ class AddItems extends Component {
         veg: veg,
         vendor: vendor["value"]["name"],
         price: prices,
-        menuCategories: menuCategories
+        menuCategories: menuCategories,
       };
       console.log(itemData);
-      var key = this.props.firebase.db
-        .ref()
-        .child("public/items")
-        .push().key;
+      var key = this.props.firebase.db.ref().child("public/items").push().key;
       console.log(key);
       var updates = {};
       updates["public/items/" + key] = itemData;
@@ -340,7 +334,7 @@ class AddItems extends Component {
                 <div className="col-3">Categories</div>
                 <div className="col-3">sizes</div>
               </div>
-              {Object.keys(this.state.items).map(item => {
+              {Object.keys(this.state.items).map((item) => {
                 return (
                   <div className="card ">
                     <div className="card-body d-flex bg-white text-dark border-top py-1">
@@ -361,7 +355,7 @@ class AddItems extends Component {
                       <div className="col-3">
                         {Object.keys(
                           this.state.items[item]["value"]["menuCategories"]
-                        ).map(category => {
+                        ).map((category) => {
                           return (
                             <div className="d-inline-flex bg-light rounded text-muted px-2">
                               {
@@ -376,7 +370,7 @@ class AddItems extends Component {
                       <div className="col-3">
                         {Object.keys(
                           this.state.items[item]["value"]["price"]
-                        ).map(size => {
+                        ).map((size) => {
                           return (
                             <div className="d-flex">
                               <div className="col-6 bg-primary rounded-left text-white px-2">
@@ -413,7 +407,7 @@ class AddItems extends Component {
     } else {
       return (
         <div className="row px-3">
-          {this.state.selectedCategories.map(item => (
+          {this.state.selectedCategories.map((item) => (
             <button
               className="btn  mx-1 mt-1 btn-primary text-light"
               key={item["id"]}
@@ -443,7 +437,7 @@ class AddItems extends Component {
     } else
       return (
         <div>
-          {Object.values(this.state.fetchedData["vendors"]).forEach(value => (
+          {Object.values(this.state.fetchedData["vendors"]).forEach((value) => (
             <div>{value}</div>
           ))}
         </div>
@@ -457,11 +451,13 @@ class AddItems extends Component {
          * Showing current items here
          */}
         <div className="col-8" id="databaseItems">
-          {/*Object.keys(this.state.fetchedData).map(menuCategories => {
+          {
+            /*Object.keys(this.state.fetchedData).map(menuCategories => {
             console.log(this.state.fetchedData);
             return <div>data</div>;
           })*/
-          this.showData()}
+            this.showData()
+          }
         </div>
         {/**
          * entering new items here
@@ -487,17 +483,19 @@ class AddItems extends Component {
                 <div className="font-weight-bold">
                   Vendor{this.showSelectedVendor()}
                 </div>
-                {//this.showVendors()
-                this.state.vendors.map(item => (
-                  <button
-                    className="btn btn-secondary m-1"
-                    onClick={() => {
-                      this.changeVendor(item);
-                    }}
-                  >
-                    {item["value"]["name"]}
-                  </button>
-                ))}
+                {
+                  //this.showVendors()
+                  this.state.vendors.map((item) => (
+                    <button
+                      className="btn btn-secondary m-1"
+                      onClick={() => {
+                        this.changeVendor(item);
+                      }}
+                    >
+                      {item["value"]["name"]}
+                    </button>
+                  ))
+                }
               </div>
               {/* -----Veg/Non Veg here----- */}
               <div className="border-top mt-2">
@@ -523,7 +521,7 @@ class AddItems extends Component {
                   ></input>
                   <div className="col-12">
                     <div className="dropdown-content row mt-1">
-                      {this.state.searchedCategories.map(item => (
+                      {this.state.searchedCategories.map((item) => (
                         <button
                           className="btn bg-secondary text-light mx-1 mt-1"
                           onClick={() => {
@@ -541,7 +539,7 @@ class AddItems extends Component {
               <div className="border-top mt-2">
                 <div className="font-weight-bold">Sizes</div>
                 <div>
-                  {this.state.selectedSizes.map(item => (
+                  {this.state.selectedSizes.map((item) => (
                     <div className="btn-group col-12">
                       <button
                         className="btn col-4 btn-primary"
@@ -558,7 +556,7 @@ class AddItems extends Component {
                       ></input>
                     </div>
                   ))}
-                  {this.state.unselectedSizes.map(item => (
+                  {this.state.unselectedSizes.map((item) => (
                     <button
                       className="btn btn-secondary m-1"
                       onClick={() => {
