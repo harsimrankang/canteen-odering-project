@@ -1,17 +1,21 @@
-import React, { Component } from 'react';
-import { withFirebase } from '../Firebase';
+import React, { Component } from "react";
+import { withFirebase } from "../Firebase";
+import { withRouter } from "react-router-dom";
+//import { Link } from 'react-router-dom';
+//import Mainpage from '../mainpage';
 { {/*import { Link, withRouter } from 'react-router-dom';*/ } }
 
 
 { {/*import * as ROUTES from '../../constants/routes';*/ } }
-const SignUpPage = () => (
+/*const SignUpPage = () => (
     <div>
         <div class="row justify-content-center  bg-white p-5 " ><h1>SignUp</h1></div>
 
         <SignUpForm />
-
+        
     </div>
-);
+);*/
+
 const INITIAL_STATE = {
     username: '',
     email: '',
@@ -36,10 +40,13 @@ class SignUpFormBase extends Component {
                     .set({
                         username,
                         email,
+                        passwordOne
                     });
             })
             .then(authUser => {
                 this.setState({ ...INITIAL_STATE });
+                this.props.history.push("/Mainpage");
+
             })
             .catch(error => {
                 this.setState({ error });
@@ -69,6 +76,8 @@ class SignUpFormBase extends Component {
 
         return (
             <form onSubmit={this.onSubmit}>
+                <div class="row justify-content-center  bg-white p-5 " ><h1>SignUp</h1></div>
+
                 <div class="row justify-content-center bg-white">
                     <div className="col-6">
                         <input
@@ -116,5 +125,6 @@ class SignUpFormBase extends Component {
     }
 }
 const SignUpForm = withFirebase(SignUpFormBase);
-export default SignUpPage;
-export { SignUpForm };
+export default SignUpForm;
+//export default SignUpPage;
+//export { SignUpForm };

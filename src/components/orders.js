@@ -6,7 +6,7 @@ class Orders extends Component {
   componentDidMount() {
     fetch(
       "https://canteen-ordering-3d30c.firebaseio.com/public/LaPinoz/veg.json"
-    )
+       )
       .then(res => res.json())
       .then(res => this.setState({ menu: res }));
   }
