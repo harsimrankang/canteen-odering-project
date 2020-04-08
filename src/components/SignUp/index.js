@@ -105,5 +105,5 @@ class SignUpFormBase extends Component {
     );
   }
 }
-const SignUpForm = withRouter(withFirebase(SignUpFormBase));
-export default SignUpForm;
+
+export default withRouter(withFirebase(SignUpFormBase));
