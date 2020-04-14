@@ -7,7 +7,7 @@ class neworders extends Component {
     constructor(props) {
         super(props);
     }
-    showvendorscard = () => {
+    showvendorscard() {
         return (<div class="card">
             <div class="card-header">
                 Featured
@@ -56,7 +56,7 @@ class neworders extends Component {
                             Filter By
                     </button>
                         <div className="dropdown-menu">
-                            <a className="dropdown-item" onClick={this.showvendorscard}>Vendors</a>
+                            <a className="dropdown-item" onClick={() => this.showvendorscard}>Vendors</a>
                             <div className="dropdown-divider"></div>
                             <a className="dropdown-item" onClick={this.showmenucategoriescard}>Menu Categories</a>
                             <div className="dropdown-divider"></div>
