@@ -360,7 +360,7 @@ class AddItems extends Component {
                             <div className="d-inline-flex bg-light rounded text-muted px-2">
                               {
                                 this.state.items[item]["value"][
-                                  "menuCategories"
+                                "menuCategories"
                                 ][category]["name"]
                               }
                             </div>
@@ -376,14 +376,14 @@ class AddItems extends Component {
                               <div className="col-6 bg-primary rounded-left text-white px-2">
                                 {
                                   this.state.items[item]["value"]["price"][
-                                    size
+                                  size
                                   ]["size"]
                                 }
                               </div>
                               <div className="col-6 bg=primary flex-grow-1 rounded-right  text-black bg-light px-2">
                                 {
                                   this.state.items[item]["value"]["price"][
-                                    size
+                                  size
                                   ]["price"]
                                 }
                               </div>

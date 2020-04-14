@@ -57,7 +57,7 @@ class Mainpage extends Component {
             <CardItems
               title="LA PINOZ"
               para="All the taste and toppings you want on a pizza, straight from
-                  our oven to your door!" page="orders"
+                  our oven to your door!" page="neworders"
             />
            
             <CardItems title="BURGRILL" para="Liscensed to grill."  />

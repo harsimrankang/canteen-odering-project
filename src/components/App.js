@@ -11,6 +11,7 @@ import { withFirebase } from "./Firebase";
 
 import Navbar from "./navbar";
 import Orders from "./orders";
+import NewOrders from "./neworders";
 import Mainpage from "./mainpage";
 import SignUp from "./SignUp";
 import Login from "./Login";
@@ -50,6 +51,9 @@ class App extends Component {
             </Route>
             <Route path="/Orders">
               <Orders />
+            </Route>
+            <Route path="/neworders">
+              <NewOrders />
             </Route>
             <Route path="/Login">
               <Login />
