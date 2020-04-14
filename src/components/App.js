@@ -3,7 +3,7 @@ import {
   HashRouter as Router,
   Switch,
   Route,
-  useHistory
+  useHistory,
 } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
@@ -16,11 +16,12 @@ import Mainpage from "./mainpage";
 import SignUp from "./SignUp";
 import Login from "./Login";
 import AddItems from "./AddItems";
+import UltraMenuPage from "./ultraMenuPage";
 
 class App extends Component {
   state = {
     user: null,
-    username: null
+    username: null,
   };
   componentDidUpdate() {
     /*if (this.state.user != null) {
@@ -31,7 +32,7 @@ class App extends Component {
     }*/
   }
   componentDidMount() {
-    this.props.firebase.auth.onAuthStateChanged(authUser => {
+    this.props.firebase.auth.onAuthStateChanged((authUser) => {
       //if (this.state.user == null && authUser != null) this.props.history.push('/mainpage');
       console.log(authUser);
       if (authUser != this.state.user)
@@ -63,6 +64,9 @@ class App extends Component {
             </Route>
             <Route path="/AddItems">
               <AddItems />
+            </Route>
+            <Route path="/ultramenu">
+              <UltraMenuPage />
             </Route>
           </Switch>
         </div>
