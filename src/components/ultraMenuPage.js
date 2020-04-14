@@ -48,7 +48,7 @@ class UltraMenuPage extends Component {
         items: items,
         searchedCategories: allCategories,
         allCategories: allCategories,
-        vendors: vendors,
+        unselectedVendors: vendors,
         unselectedSizes: allSizes,
         allSizes: allSizes,
         selectedSizes: [],
@@ -58,7 +58,13 @@ class UltraMenuPage extends Component {
   showUnselectedVendors = () => {
     return (
       <div className="col-12 d-flex">
-        <div className="flex-fill"></div>
+        {Object.keys(this.state.unselectedVendors).forEach((key) => {
+          return (
+            <div className="flex-fill">
+              {this.state.unselectedVendors[key].name}
+            </div>
+          );
+        })}
       </div>
     );
   };
@@ -66,7 +72,9 @@ class UltraMenuPage extends Component {
     return (
       <div className="col-12">
         ULTRAMENU
-        <div className="col-12" id=""></div>
+        <div className="col-12" id="">
+          {this.showUnselectedVendors()}
+        </div>
       </div>
     );
   }
