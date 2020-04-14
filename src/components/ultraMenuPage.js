@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { withFirebase } from "./Firebase";
+import lapinoz from "./lapinoz.jpg";
 class UltraMenuPage extends Component {
   state = {
     selectedVendors: [],
@@ -58,10 +59,11 @@ class UltraMenuPage extends Component {
   showUnselectedVendors = () => {
     return (
       <div className="col-12 d-flex">
-        {Object.keys(this.state.unselectedVendors).forEach((key) => {
+        {this.state.unselectedVendors.map((value, index) => {
           return (
-            <div className="flex-fill">
-              {this.state.unselectedVendors[key].name}
+            <div className="flex-fill mx-2 shadow bg-light card justify-content-center">
+              <img src={this.state.unselectedVendors[index].value.image}></img>
+              {this.state.unselectedVendors[index].value.name}
             </div>
           );
         })}
