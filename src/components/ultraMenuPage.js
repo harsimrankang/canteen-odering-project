@@ -6,6 +6,8 @@ class UltraMenuPage extends Component {
   state = {
     loaded: false,
     itemsReady: false,
+    popupVisibility: false,
+    popupItem: null,
     allItems: [],
     selectedVendors: [],
     allVendors: [],
@@ -44,7 +46,7 @@ class UltraMenuPage extends Component {
                   ) {
                     sortedItems[res["vendors"][key1]["name"]][
                       res["menuCategories"][key2]["name"]
-                    ][key4] = res["items"][key3];
+                    ][key3] = res["items"][key3];
                   }
                 }
               );
@@ -225,7 +227,96 @@ class UltraMenuPage extends Component {
       }
     }
   };
-
+  addItemPopup = (itemId) => {
+    //show Popup
+    document.getElementById("popup").style.visibility = "visible";
+    this.setState({ popupVisibility: true, popupItem: itemId });
+  };
+  hidePopup = () => {
+    //hide Popup
+    this.setState({ popupVisibility: false });
+  };
+  popupInterface = () => {
+    if (this.state.popupItem != null)
+      return (
+        <div className="mx-5 flex-grow-1 card bg-dark text-light">
+          <div className="card-header d-flex">
+            <div className="h2 flex-grow-1">
+              {this.state.fetchedData["items"][this.state.popupItem]["name"]}
+            </div>
+            <button
+              className="btn btn-danger"
+              onClick={() => {
+                this.hidePopup();
+              }}
+            >
+              Close
+            </button>
+          </div>
+          <div className="card-body">
+            <div id="popupPrices">
+              <div className="btn-group col-12">
+                <button className="btn btn-secondary disabled col-3">
+                  Size
+                </button>
+                <button className="btn btn-secondary disabled col-3">
+                  Price
+                </button>
+                <button className="btn btn-secondary disabled col-3">
+                  Quantity
+                </button>
+                <button className="btn btn-secondary disabled col-3">
+                  Total
+                </button>
+              </div>
+              {Object.keys(
+                this.state.fetchedData["items"][this.state.popupItem]["price"]
+              ).map((key) => (
+                <div className="btn-group col-12">
+                  <button className="btn btn-primary col-3 disabled">
+                    {
+                      this.state.fetchedData["items"][this.state.popupItem][
+                        "price"
+                      ][key]["size"]
+                    }
+                  </button>
+                  <button className="btn btn-primary col-3 disabled">
+                    {
+                      this.state.fetchedData["items"][this.state.popupItem][
+                        "price"
+                      ][key]["price"]
+                    }
+                  </button>
+                  <button
+                    className="btn btn-primary col-1"
+                    id={"increase" + key}
+                  >
+                    +
+                  </button>
+                  <input
+                    className="btn btn-primary col-1 disabled"
+                    id={key}
+                    type="number"
+                  ></input>
+                  <button
+                    className="btn btn-primary col-1"
+                    id={"decrease" + key}
+                  >
+                    -
+                  </button>
+                  <button
+                    className="btn btn-primary disabled col-3"
+                    id={"total" + key}
+                  >
+                    0
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      );
+  };
   showCategorisedItems = () => {
     var vendors = [];
     if (this.state.selectedVendors.length > 0) {
@@ -279,23 +370,57 @@ class UltraMenuPage extends Component {
             ];
           }
         }
-        categorisedItems[vendors[i]["value"]["name"]] = vendor;
+        if (flag1) categorisedItems[vendors[i]["value"]["name"]] = vendor;
       }
     console.log(categorisedItems);
     return (
       <div>
         {Object.keys(categorisedItems).map((key1) => (
-          <div className="card bg-dark text-light">
+          <div className="card bg-dark text-light shadow mb-3">
             <div className="card-header h2">{key1}</div>
             <div className="card-body">
               {Object.keys(categorisedItems[key1]).map((key2) => (
-                <div className="card bg-dark text-light">
+                <div className="card bg-light text-dark shadow my-2">
                   <div className="card-header h4">{key2}</div>
                   <div className="card-body p-0">
                     {Object.keys(categorisedItems[key1][key2]).map((key3) => (
-                      <div className="card bg-dark text-light">
-                        <div className="card-body">
-                          {categorisedItems[key1][key2][key3]["name"]}
+                      <div className="card text-dark my-1">
+                        <div className="card-body row py-0 pl-4">
+                          <div className="flex-grow-1">
+                            <div className="btn btn-disabled">
+                              {categorisedItems[key1][key2][key3]["name"]}
+                            </div>
+                          </div>
+                          <div className="d-flex">
+                            {Object.keys(
+                              categorisedItems[key1][key2][key3]["price"]
+                            ).map((key4) => (
+                              <div className="btn-group ml-1">
+                                <div className="d-inline-flex btn btn-dark disabled">
+                                  {
+                                    categorisedItems[key1][key2][key3]["price"][
+                                      key4
+                                    ]["size"]
+                                  }
+                                </div>
+                                <div className="d-inline-flex btn btn-dark disabled">
+                                  {
+                                    categorisedItems[key1][key2][key3]["price"][
+                                      key4
+                                    ]["price"]
+                                  }
+                                </div>
+                              </div>
+                            ))}
+                            <button
+                              className="btn btn-danger ml-1"
+                              onClick={() => {
+                                this.addItemPopup(key3);
+                              }}
+                            >
+                              ADD
+                            </button>
+                          </div>
                         </div>
                       </div>
                     ))}
@@ -414,22 +539,51 @@ class UltraMenuPage extends Component {
   };
   render() {
     if (!this.state.loaded)
-      return <div className="bg-dark text-light">Loading Data</div>;
+      return (
+        <div
+          className="bg-dark text-light"
+          style={{
+            minHeight: "1080px",
+          }}
+        >
+          Loading Data
+        </div>
+      );
     else
       return (
-        <div className="container-fluid" style={{ background: "black" }}>
-          <div className="row py-3" id="VendorSelectorStrip">
-            {this.showVendors()}
+        <div>
+          <div
+            id="popup"
+            className="d-flex align-items-center"
+            style={{
+              position: "fixed",
+              top: "0px",
+              minHeight: "100%",
+              minWidth: "100%",
+              visibility: this.state.popupVisibility,
+              zIndex: this.state.popupVisibility ? 2 : -1,
+              backgroundColor: "rgba(0,0,0,0.5)",
+            }}
+          >
+            {this.popupInterface()}
           </div>
-          <div className="row">
-            <div className="col-12 col-md-3 p-2">
-              {this.showSecondaryOptions()}
+          <div
+            className="container-fluid"
+            style={{ background: "black", minHeight: "1080px" }}
+          >
+            <div className="row py-3" id="VendorSelectorStrip">
+              {this.showVendors()}
             </div>
-            <div className="col-12 col-md-9 p-2">
-              {
-                //this.showItems()
-                this.showCategorisedItems()
-              }
+            <div className="row">
+              <div className="col-12 col-md-3 p-2">
+                {this.showSecondaryOptions()}
+              </div>
+              <div className="col-12 col-md-9 p-2">
+                {
+                  //this.showItems()
+                  this.showCategorisedItems()
+                }
+              </div>
             </div>
           </div>
         </div>
