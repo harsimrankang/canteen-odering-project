@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "fbcec872bb2cf98f84a658bf6bafe9e6",
+    "revision": "c056382f3369610f5a687f3630649235",
     "url": "/canteen-ordering-project/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/canteen-ordering-project/static/css/2.47e06e2e.chunk.css"
   },
   {
-    "revision": "b7ee87224fb057e0d806",
+    "revision": "4892fa98524469c4828f",
     "url": "/canteen-ordering-project/static/css/main.c8389ccb.chunk.css"
   },
   {
@@ -20,8 +20,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/canteen-ordering-project/static/js/2.e6f02f7b.chunk.js.LICENSE"
   },
   {
-    "revision": "b7ee87224fb057e0d806",
-    "url": "/canteen-ordering-project/static/js/main.d9ad7bd2.chunk.js"
+    "revision": "4892fa98524469c4828f",
+    "url": "/canteen-ordering-project/static/js/main.6160f656.chunk.js"
   },
   {
     "revision": "d8db87174904d90bcee6",
