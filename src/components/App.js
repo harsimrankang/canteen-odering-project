@@ -20,32 +20,61 @@ import UltraMenuPage from "./ultraMenuPage";
 
 class App extends Component {
   state = {
-    user: null,
+    userData: null,
     username: null,
+    items: {},
+    vendors: {},
   };
-  componentDidUpdate() {
-    /*if (this.state.user != null) {
-      this.props.firebase.db.ref("users/" + this.state.user.uid).once('value').then(function (snapshot) {
-        const user = (snapshot.val() && snapshot.val().username) || 'Anonymous';
-        if (this.state.username != user) { this.setState({ username: user }) }
-      })
-    }*/
-  }
-  componentDidMount() {
+  /**
+   * @summary
+   * This function will fetch data fron realtime database and provide that data to other components.
+   */
+  fetchMenuData = () => {
+    this.props.firebase.db.ref("public").on("value", (snapshot) => {
+      var response = snapshot.val();
+      var items = response.items;
+      var vendors = response.vendors;
+      var categories = response.menuCategories;
+      var sizes = response.sizeCategories;
+    });
+  };
+  fetchUserData = () => {
     this.props.firebase.auth.onAuthStateChanged((authUser) => {
       //if (this.state.user == null && authUser != null) this.props.history.push('/mainpage');
-      console.log(authUser);
-      if (authUser != this.state.user)
+      //console.log(authUser);
+      if (authUser != this.state.userData)
         authUser
-          ? this.setState({ user: authUser })
-          : this.setState({ user: null });
+          ? this.setState({ userData: authUser })
+          : this.setState({ userData: null });
     });
+  };
+  fetchUserName = () => {
+    if (this.state.userData != null) {
+      this.props.firebase.db
+        .ref("users/" + this.state.userData.uid)
+        .once("value")
+        .then((snapshot) => {
+          const user =
+            (snapshot.val() && snapshot.val().username) || "Anonymous";
+          if (this.state.username != user) {
+            this.setState({ username: user });
+          }
+        });
+    }
+  };
+  componentDidUpdate() {
+    console.log(this.state.userData.email);
+    this.fetchUserName();
+  }
+  componentDidMount() {
+    this.fetchMenuData();
+    this.fetchUserData();
   }
   render() {
     return (
       <Router basename="/">
         <div>
-          <Navbar user={this.state.user} username={this.state.username} />
+          <Navbar user={this.state.userData} username={this.state.username} />
           <Switch>
             <Route path="/Mainpage">
               <Mainpage />

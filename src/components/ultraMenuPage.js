@@ -255,7 +255,7 @@ class UltraMenuPage extends Component {
           </div>
           <div className="card-body">
             <div id="popupPrices">
-              <div className="btn-group col-12">
+              <div className="btn-group col-12 mb-1">
                 <button className="btn btn-secondary disabled col-3">
                   Size
                 </button>
@@ -403,7 +403,7 @@ class UltraMenuPage extends Component {
                                     ]["size"]
                                   }
                                 </div>
-                                <div className="d-inline-flex btn btn-dark disabled">
+                                <div className="d-inline-flex btn btn-secondary disabled">
                                   {
                                     categorisedItems[key1][key2][key3]["price"][
                                       key4
@@ -510,17 +510,17 @@ class UltraMenuPage extends Component {
           else {
             return (
               <div
-                className="media-body mx-2 bg-dark justify-content-center text-white"
+                className="media-body mx-2  justify-content-center text-white "
                 style={{ overflow: "hidden", flexBasis: "0" }}
               >
-                <div className="card">
+                <div className="card p-0">
                   <VendorImg img={object.value.image} />
                   <button
                     className="btn btn-outline-dark card-img-overlay d-flex p-1 text-center align-items-center justify-content-center"
                     onClick={() => {
                       this.addToSelectedVendors(object.id);
                     }}
-                    style={{ borderWidth: "2px", borderStyle: "outset" }}
+                    style={{ borderWidth: "2px" }}
                   >
                     <div
                       className="h4 text-white"
