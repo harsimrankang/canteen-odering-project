@@ -1,26 +1,27 @@
 {
   "files": {
     "main.css": "/canteen-ordering-project/static/css/main.c8389ccb.chunk.css",
-    "main.js": "/canteen-ordering-project/static/js/main.06a193b0.chunk.js",
-    "main.js.map": "/canteen-ordering-project/static/js/main.06a193b0.chunk.js.map",
+    "main.js": "/canteen-ordering-project/static/js/main.d9ad7bd2.chunk.js",
+    "main.js.map": "/canteen-ordering-project/static/js/main.d9ad7bd2.chunk.js.map",
     "runtime-main.js": "/canteen-ordering-project/static/js/runtime-main.35845c68.js",
     "runtime-main.js.map": "/canteen-ordering-project/static/js/runtime-main.35845c68.js.map",
     "static/css/2.47e06e2e.chunk.css": "/canteen-ordering-project/static/css/2.47e06e2e.chunk.css",
-    "static/js/2.eef3f7bb.chunk.js": "/canteen-ordering-project/static/js/2.eef3f7bb.chunk.js",
-    "static/js/2.eef3f7bb.chunk.js.map": "/canteen-ordering-project/static/js/2.eef3f7bb.chunk.js.map",
+    "static/js/2.e6f02f7b.chunk.js": "/canteen-ordering-project/static/js/2.e6f02f7b.chunk.js",
+    "static/js/2.e6f02f7b.chunk.js.map": "/canteen-ordering-project/static/js/2.e6f02f7b.chunk.js.map",
     "index.html": "/canteen-ordering-project/index.html",
-    "precache-manifest.ec259f6c06879b17d79346d56589a28b.js": "/canteen-ordering-project/precache-manifest.ec259f6c06879b17d79346d56589a28b.js",
+    "precache-manifest.9a28ad18b2eb8770322f59b77238b71c.js": "/canteen-ordering-project/precache-manifest.9a28ad18b2eb8770322f59b77238b71c.js",
     "service-worker.js": "/canteen-ordering-project/service-worker.js",
     "static/css/2.47e06e2e.chunk.css.map": "/canteen-ordering-project/static/css/2.47e06e2e.chunk.css.map",
     "static/css/main.c8389ccb.chunk.css.map": "/canteen-ordering-project/static/css/main.c8389ccb.chunk.css.map",
-    "static/js/2.eef3f7bb.chunk.js.LICENSE": "/canteen-ordering-project/static/js/2.eef3f7bb.chunk.js.LICENSE",
-    "static/media/mainpage.css": "/canteen-ordering-project/static/media/foodbg.e779dda2.jpg"
+    "static/js/2.e6f02f7b.chunk.js.LICENSE": "/canteen-ordering-project/static/js/2.e6f02f7b.chunk.js.LICENSE",
+    "static/media/mainpage.css": "/canteen-ordering-project/static/media/foodbg.e779dda2.jpg",
+    "static/media/lapinoz.jpg": "/canteen-ordering-project/static/media/lapinoz.2f71a3b5.jpg"
   },
   "entrypoints": [
     "static/js/runtime-main.35845c68.js",
     "static/css/2.47e06e2e.chunk.css",
-    "static/js/2.eef3f7bb.chunk.js",
+    "static/js/2.e6f02f7b.chunk.js",
     "static/css/main.c8389ccb.chunk.css",
-    "static/js/main.06a193b0.chunk.js"
+    "static/js/main.d9ad7bd2.chunk.js"
   ]
 }
