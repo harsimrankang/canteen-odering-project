@@ -291,7 +291,7 @@ class UltraMenuPage extends Component {
                     className="btn btn-primary col-1"
                     id={"increase" + key}
                   >
-                    +
+                    -
                   </button>
                   <input
                     className="btn btn-primary col-1 disabled"
@@ -302,7 +302,7 @@ class UltraMenuPage extends Component {
                     className="btn btn-primary col-1"
                     id={"decrease" + key}
                   >
-                    -
+                    +
                   </button>
                   <button
                     className="btn btn-primary disabled col-3"
