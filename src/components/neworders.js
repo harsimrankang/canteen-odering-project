@@ -12,6 +12,9 @@ class neworders extends Component {
         menu: [],
         vendors: [],
         menucategories: [],
+        selectvendor: false,
+        selectmenucategory: false,
+        addpricerange: false,
     };
     componentDidMount() {
         fetch("https://canteen-ordering-3d30c.firebaseio.com/public.json")
@@ -22,14 +25,14 @@ class neworders extends Component {
         if (this.state.showVendor)
             return (
                 <div className="col-4" style={{ top: "15px" }}>
-                    <div class="card">
+                    <div class="card" style={{ height: "14.3rem" }}>
                         <div class="card-header">Vendors</div>
                         <div class="card-body">
 
                             {Object.keys(this.state.menu["vendors"]).map(menuCat => {
 
                                 return (
-                                    <button type="button" class="btn btn-primary m-1">
+                                    <button type="button" class="btn btn-primary m-1"  >
                                         <div>{this.state.menu["vendors"][menuCat]["name"]}</div>
                                     </button>
                                 );
@@ -73,67 +76,82 @@ class neworders extends Component {
         if (this.state.showprice)
             return (
                 <div className="col-4" style={{ top: "15px" }}>
-                    <div class="card ">
+                    <div class="card " style={{ height: "14.3rem" }}>
                         <div class="card-header">Price Range</div>
                         <div class="card-body">
-                            <input placeholder="min" size="5"></input>
+                            <input placeholder="min" size="7"></input>
                             <a> - </a>
-                            <input placeholder="max" size="5"></input>
+                            <input placeholder="max" size="7"></input>
                         </div>
                     </div>
+                </div>
+            );
+    }
+    showitems() {
+        if (this.state.selectvendor || this.state.selectmenucategory || this.state.addpricerange)
+            return (
+                <div>
+                    <button type="button" class="btn btn-secondary">Show Items</button>
                 </div>
             );
     }
     render() {
         return (
             <div>
-                <div className="btn-group " style={{ top: "10px" }}>
-                    <button
-                        type="button"
-                        className="btn btn-danger dropdown-toggle"
-                        data-toggle="dropdown"
-                        aria-haspopup="true"
-                        aria-expanded="false"
-                    >
-                        Filter By
-          </button>
-                    <div className="dropdown-menu">
-                        <a
-                            className="dropdown-item"
-                            onClick={() =>
-                                this.setState({ showVendor: !this.state.showVendor })
-                            }
+                <div className="col">
+                    <div className="btn-group " style={{ top: "10px" }}>
+                        <button
+                            type="button"
+                            className="btn btn-danger dropdown-toggle"
+                            data-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="false"
                         >
-                            Vendors
+                            Filter By
+                    </button>
+
+                        <div className="dropdown-menu">
+                            <a
+                                className="dropdown-item"
+                                onClick={() =>
+                                    this.setState({ showVendor: !this.state.showVendor })
+                                }
+                            >
+                                Vendors
             </a>
-                        <div className="dropdown-divider"></div>
-                        <a
-                            className="dropdown-item"
-                            onClick={() =>
-                                this.setState({
-                                    showmenucategories: !this.state.showmenucategories
-                                })
-                            }
-                        >
-                            Menu Categories
+                            <div className="dropdown-divider"></div>
+                            <a
+                                className="dropdown-item"
+                                onClick={() =>
+                                    this.setState({
+                                        showmenucategories: !this.state.showmenucategories
+                                    })
+                                }
+                            >
+                                Menu Categories
             </a>
-                        <div className="dropdown-divider"></div>
-                        <a
-                            className="dropdown-item"
-                            onClick={() =>
-                                this.setState({ showprice: !this.state.showprice })
-                            }
-                        >
-                            Price
+                            <div className="dropdown-divider"></div>
+                            <a
+                                className="dropdown-item"
+                                onClick={() =>
+                                    this.setState({ showprice: !this.state.showprice })
+                                }
+                            >
+                                Price
             </a>
+                        </div>
+                    </div>
+                    <div className="row">
+                        {this.showvendorscard()}
+                        {this.showmenucategoriescard()}
+                        {this.showpricecard()}
                     </div>
                 </div>
-                <div className="row">
-                    {this.showvendorscard()}
-                    {this.showmenucategoriescard()}
-                    {this.showpricecard()}
+                <div className=" m-5" >
+                    {this.showitems()}
                 </div>
-            </div>
+
+            </div >
         );
     }
 }
