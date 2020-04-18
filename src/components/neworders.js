@@ -13,8 +13,8 @@ class neworders extends Component {
         vendors: [],
         menucategories: [],
         selected: false,
-        minimum: 0,
-        maximum: 1000
+        minimum: null,
+        maximum: null
     };
     componentDidMount() {
         fetch("https://canteen-ordering-3d30c.firebaseio.com/public.json")
@@ -161,6 +161,18 @@ class neworders extends Component {
 
 
     }
+    onChange = event => {
+        if (event.target.id == 'min') {
+            this.setState({
+                minimum: event.target.value
+            })
+        }
+        if (event.target.id == 'max') {
+            this.setState({
+                maximum: event.target.value
+            })
+        }
+    }
     showpricecard() {
         if (this.state.showprice)
             return (
@@ -168,9 +180,9 @@ class neworders extends Component {
                     <div class="card " style={{ height: "14.3rem" }}>
                         <div class="card-header">Price Range</div>
                         <div class="card-body">
-                            <input placeholder="min" size="7" id="min" ></input>
+                            <input placeholder="min" size="7" id="min" onChange={this.onChange}></input>
                             <a> - </a>
-                            <input placeholder="max" size="7" id="max"></input>
+                            <input placeholder="max" size="7" id="max" onChange={this.onChange}></input>
 
                         </div>
                     </div>
@@ -178,17 +190,17 @@ class neworders extends Component {
             );
     }
     showitems() {
-        if (this.state.vendors.length != 0 || this.state.menucategories.length != 0 || (this.state.minimum != 0 && this.state.maximum != 1000))
+        if (this.state.vendors.length != 0 || this.state.menucategories.length != 0 || (this.state.minimum < this.state.maximum))
             return (
                 <div>
-                    <button type="button" class="btn btn-secondary" onClick={() => {
+                    <button type="button" class="btn btn-secondary" /*onClick={() => {
                         this.setState({
                             minimum: document.getElementById('min').value,
                             maximum: document.getElementById('max').value
                         })
 
 
-                    }}
+                    }}*/
                     >Show Items</button>
                 </div>
             );
