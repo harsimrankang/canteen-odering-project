@@ -13,11 +13,11 @@ class neworders extends Component {
         vendors: [],
         menucategories: [],
         selected: false,
-        selectvendor: true,
+        selectvendor: false,
         selectmenucategory: true,
-        addpricerange: true,
-        minimum: undefined,
-        maximum: undefined
+        addpricerange: false,
+        minimum: 0,
+        maximum: 1000
     };
     componentDidMount() {
         fetch("https://canteen-ordering-3d30c.firebaseio.com/public.json")
@@ -70,7 +70,6 @@ class neworders extends Component {
                     <div class="card" style={{ height: "14.3rem" }}>
                         <div class="card-header">Vendors</div>
                         <div class="card-body">
-
                             {Object.keys(this.state.menu["vendors"]).map(menuCat => {
                                 if (this.state.menu["vendors"][menuCat].selected == undefined)
                                     return (
@@ -168,7 +167,7 @@ class neworders extends Component {
                     <div class="card " style={{ height: "14.3rem" }}>
                         <div class="card-header">Price Range</div>
                         <div class="card-body">
-                            <input placeholder="min" size="7" id="min"></input>
+                            <input placeholder="min" size="7" id="min" ></input>
                             <a> - </a>
                             <input placeholder="max" size="7" id="max"></input>
 
@@ -184,10 +183,10 @@ class neworders extends Component {
                     <button type="button" class="btn btn-secondary" onClick={() => {
                         this.setState({
                             minimum: document.getElementById('min').value
-                        });
+                        })
                         this.setState({
                             maximum: document.getElementById('max').value
-                        });
+                        })
                         console.log(this.state.minimum)
                         console.log(this.state.maximum)
                     }}
