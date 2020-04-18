@@ -13,9 +13,9 @@ class neworders extends Component {
         vendors: [],
         menucategories: [],
         selected: false,
-        selectvendor: false,
-        selectmenucategory: false,
-        addpricerange: false,
+        selectvendor: true,
+        selectmenucategory: true,
+        addpricerange: true,
         minimum: undefined,
         maximum: undefined
     };
@@ -88,24 +88,7 @@ class neworders extends Component {
                                         </button>
 
                                     );
-                                /* HP66666666666
-                                 eh kidda
-                                 Win+Period
-                                 ohhkkk
-                                 jessssss
-                                 acha sun 
-                                 aapa nu this.state.menu nu menu ch paan di lod ku pyi?
-                                 directly  ho ta jana chahida c gl ta same hi bni
-                                 aapa state nu directly nhi change kr skde
-                                 set state hi krna painda
-                                 te set state ch v aapa jma top aala element set kr skde
-                                 ohde andar jaa ke changes nhi kr skde
 
-
-                          ohhhhhhhhh achaaaa
-                          esmart boyyyyy
-                          😏
-                          and hun j aapa chonde aa ki dubara click hon utte blue hoje ta aapa else ch krange oh code? jessssss  okzzzzz*/
                                 else return (
                                     <button type="button" class="btn btn-secondary m-1" onClick={() => {
                                         var menu = this.state.menu
@@ -185,9 +168,9 @@ class neworders extends Component {
                     <div class="card " style={{ height: "14.3rem" }}>
                         <div class="card-header">Price Range</div>
                         <div class="card-body">
-                            <input placeholder="min" size="7" value={this.value}></input>
+                            <input placeholder="min" size="7" id="min"></input>
                             <a> - </a>
-                            <input placeholder="max" size="7" value={this.value}></input>
+                            <input placeholder="max" size="7" id="max"></input>
 
                         </div>
                     </div>
@@ -198,7 +181,17 @@ class neworders extends Component {
         if (this.state.selectvendor || this.state.selectmenucategory || this.state.addpricerange)
             return (
                 <div>
-                    <button type="button" class="btn btn-secondary">Show Items</button>
+                    <button type="button" class="btn btn-secondary" onClick={() => {
+                        this.setState({
+                            minimum: document.getElementById('min').value
+                        });
+                        this.setState({
+                            maximum: document.getElementById('max').value
+                        });
+                        console.log(this.state.minimum)
+                        console.log(this.state.maximum)
+                    }}
+                    >Show Items</button>
                 </div>
             );
     }
