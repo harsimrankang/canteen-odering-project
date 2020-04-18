@@ -13,9 +13,6 @@ class neworders extends Component {
         vendors: [],
         menucategories: [],
         selected: false,
-        selectvendor: false,
-        selectmenucategory: true,
-        addpricerange: false,
         minimum: 0,
         maximum: 1000
     };
@@ -24,6 +21,10 @@ class neworders extends Component {
             .then((res) => res.json())
             .then((res) => this.setState({ menu: res }))
             .then((res) => this.setState({ selectedVendors: res }));
+    }
+    componentDidUpdate() {
+        console.log(this.state.minimum)
+        console.log(this.state.maximum)
     }
     arrayOfSelectedVendors(x) {
         var vendors = this.state.vendors;
@@ -177,18 +178,16 @@ class neworders extends Component {
             );
     }
     showitems() {
-        if (this.state.selectvendor || this.state.selectmenucategory || this.state.addpricerange)
+        if (this.state.vendors.length != 0 || this.state.menucategories.length != 0 || (this.state.minimum != 0 && this.state.maximum != 1000))
             return (
                 <div>
                     <button type="button" class="btn btn-secondary" onClick={() => {
                         this.setState({
-                            minimum: document.getElementById('min').value
-                        })
-                        this.setState({
+                            minimum: document.getElementById('min').value,
                             maximum: document.getElementById('max').value
                         })
-                        console.log(this.state.minimum)
-                        console.log(this.state.maximum)
+
+
                     }}
                     >Show Items</button>
                 </div>
