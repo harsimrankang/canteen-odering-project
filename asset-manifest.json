@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/canteen-ordering-project/static/css/main.c8389ccb.chunk.css",
-    "main.js": "/canteen-ordering-project/static/js/main.6160f656.chunk.js",
-    "main.js.map": "/canteen-ordering-project/static/js/main.6160f656.chunk.js.map",
+    "main.js": "/canteen-ordering-project/static/js/main.6b0ca09f.chunk.js",
+    "main.js.map": "/canteen-ordering-project/static/js/main.6b0ca09f.chunk.js.map",
     "runtime-main.js": "/canteen-ordering-project/static/js/runtime-main.35845c68.js",
     "runtime-main.js.map": "/canteen-ordering-project/static/js/runtime-main.35845c68.js.map",
     "static/css/2.47e06e2e.chunk.css": "/canteen-ordering-project/static/css/2.47e06e2e.chunk.css",
     "static/js/2.e6f02f7b.chunk.js": "/canteen-ordering-project/static/js/2.e6f02f7b.chunk.js",
     "static/js/2.e6f02f7b.chunk.js.map": "/canteen-ordering-project/static/js/2.e6f02f7b.chunk.js.map",
     "index.html": "/canteen-ordering-project/index.html",
-    "precache-manifest.1c2d3d0b2d1b2f7bf74358eacfb9aa87.js": "/canteen-ordering-project/precache-manifest.1c2d3d0b2d1b2f7bf74358eacfb9aa87.js",
+    "precache-manifest.6998a1d4423087b872088a15008d95dc.js": "/canteen-ordering-project/precache-manifest.6998a1d4423087b872088a15008d95dc.js",
     "service-worker.js": "/canteen-ordering-project/service-worker.js",
     "static/css/2.47e06e2e.chunk.css.map": "/canteen-ordering-project/static/css/2.47e06e2e.chunk.css.map",
     "static/css/main.c8389ccb.chunk.css.map": "/canteen-ordering-project/static/css/main.c8389ccb.chunk.css.map",
@@ -22,6 +22,6 @@
     "static/css/2.47e06e2e.chunk.css",
     "static/js/2.e6f02f7b.chunk.js",
     "static/css/main.c8389ccb.chunk.css",
-    "static/js/main.6160f656.chunk.js"
+    "static/js/main.6b0ca09f.chunk.js"
   ]
 }

@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/canteen-ordering-project/precache-manifest.1c2d3d0b2d1b2f7bf74358eacfb9aa87.js"
+  "/canteen-ordering-project/precache-manifest.6998a1d4423087b872088a15008d95dc.js"
 );
 
 self.addEventListener('message', (event) => {
