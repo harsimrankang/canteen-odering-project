@@ -14,17 +14,171 @@ class neworders extends Component {
         menucategories: [],
         selected: false,
         minimum: null,
-        maximum: null
+        maximum: null,
+        buttonClicked: false,
+        arrayForSelected: {},
+        itemSelected: false
     };
     componentDidMount() {
         fetch("https://canteen-ordering-3d30c.firebaseio.com/public.json")
             .then((res) => res.json())
             .then((res) => this.setState({ menu: res }))
-            .then((res) => this.setState({ selectedVendors: res }));
+
+        // .then((res) => this.setState({ arrayForSelected: res }));
     }
     componentDidUpdate() {
+        console.log("MINIMUM")
         console.log(this.state.minimum)
+        console.log("MAXIMUM")
         console.log(this.state.maximum)
+        console.log("MENU")
+        console.log(this.state.menu)
+        console.log("ITEMS FROM APP.js")
+        console.log(this.props.items)
+        console.log("ITEMARRAY FROM APP.js")
+        console.log(this.props.itemArray)
+        console.log("VENDORS")
+        console.log(this.state.vendors)
+        console.log("MENU CATEGORIES")
+        console.log(this.state.menucategories)
+    }
+    fetchDataFromFirebase() {
+        var k = 0;
+        if (this.state.vendors.length != 0)
+            Object.keys(this.props.items).map(itemId => {
+                var flag = 0;
+                for (var i = 0; i < this.state.vendors.length; i++) {
+                    if (this.props.items[itemId]["vendor"] == this.state.vendors[i].name) {
+                        flag = 1;
+                        break;
+                    }
+                }
+                if (flag == 0) {
+                    this.props.itemArray.splice(k, 1);
+                    k--;
+                }
+                k++;
+            })
+        if (this.state.menucategories.length != 0) {
+            var k = 0, flag = 0;
+            for (var i = 0; i < this.props.itemArray.length; i++) {
+                flag = 0;
+                for (var j = 0; j < this.state.menucategories.length; j++) {
+                    Object.keys(this.props.items[this.props.itemArray[i]]["menuCategories"]).map(menuCat => {
+                        if (this.props.items[this.props.itemArray[i]]["menuCategories"][menuCat]["name"] == this.state.menucategories[j].name) {
+                            flag = 1;
+
+                        }
+                    })
+                }
+                if (flag == 0) {
+                    this.props.itemArray.splice(k, 1);
+                    k--;
+                }
+                k++;
+            }
+        }
+
+
+
+
+
+
+
+        /*this.setState({
+            arrayForSelected
+                : this.state.menu
+        })
+        for (var i = 0; i < this.state.vendors.length; i++) {
+            {
+                Object.key(this.state.arrayForSelected["items"]).map(itemId => {
+                    if (this.state.arrayForSelected["items"][itemId]["vendor"] === this.state.vendors[i].name) {
+                        var x = this.state.arrayForSelected["items"][itemId]["vendor"].itemSelected
+                        this.setState({
+                            x: true
+                        })
+                    }
+                }
+                )
+            }
+        }
+        for (var i = 0; i < this.state.menucategories.length; i++) {
+            {
+                Object.key(this.state.arrayForSelected["items"].map(itemsId => {
+                    if (this.state.arrayForSelected["items"][itemsId]["vendor"].itemSelected === true) {
+                        {
+                            Object.key(this.state.arrayForSelected["items"][itemsId][menuCategories]).map(catId => {
+                                if (this.state.arrayForSelected["items"][itemsId][menuCategories][catId]["name"] != this.state.menucategories[i].name) {
+                                    var x = this.state.arrayForSelected["items"][itemId]["vendor"].itemSelected
+                                    this.setState({
+                                        x: false
+                                    })
+                                }
+                            })
+                        }
+                    }
+                }))
+            }
+        }*/
+
+
+        //arrayGForSelected
+
+        /* for (var i = 0; i < this.state.vendors.length; i++) {
+             for (var j = 0; j < this.state.menucategories.length; j++) {
+                 for (var k = this.state.minimum; k <= this.state.maximum; k++) {
+                     {
+                         Object.keys(this.state.menu["items"]).map(itemId => {
+                             if (this.state.menu["items"][itemId]["vendor"] === this.state.vendors[i].name) {
+                                 Object.keys(this.state.menu["items"][itemId]["menuCategories"]).map(menuCategoryId => {
+                                     if (this.state.menu["items"][itemId]["menuCategories"][menuCategoryId]["name"] === this.state.menucategories[i].name) {
+                                         {
+ 
+                                         }
+                                     }
+                                 })
+                             }
+                             {
+                                 if (this.state.minimum != null && this.state.maximum != null)
+                                     Object.keys(this.state.menu["items"][itemId]["price"]).map(priceId => {
+                                         if ((this.state.menu["items"][itemId]["price"][priceId]["price"] > parseInt(this.state.minimum)) && (this.state.menu["items"][itemId]["price"][priceId]["price"] < parseInt(this.state.maximum))) {
+                                             {
+ 
+                                             }
+                                         }
+                                     })
+                             }
+ 
+                         })
+                     }
+                 }
+             }
+         }*/
+    }
+    showData() {
+        if (this.state.buttonClicked == true)
+            return (
+                <div className="card bg-light">
+                    <div className="card-body ">
+                        <div className="d-flex">
+                            <div className="col-3">Name</div>
+                            <div className="col-3">Vendor</div>
+                            <div className="col-3">Category</div>
+                            <div className="col-3">size and price</div>
+                        </div>
+                        <div> {this.fetchDataFromFirebase()}</div>
+                        {/* <div className="card my-1">
+                            <div className="card-body d-flex">
+                                <div className="col-3">Name</div>
+                                <div className="col-3">Vendor</div>
+                                <div className="col-3">Category</div>
+                                <div className="col-3">size and price</div>
+                            </div>
+                        </div>*/}
+                    </div>
+                </div>
+
+            );
     }
     arrayOfSelectedVendors(x) {
         var vendors = this.state.vendors;
@@ -180,9 +334,9 @@ class neworders extends Component {
                     <div class="card " style={{ height: "14.3rem" }}>
                         <div class="card-header">Price Range</div>
                         <div class="card-body">
-                            <input placeholder="min" size="7" id="min" onChange={this.onChange}></input>
+                            <input placeholder="min" type="number" size="7" id="min" onChange={this.onChange}></input>
                             <a> - </a>
-                            <input placeholder="max" size="7" id="max" onChange={this.onChange}></input>
+                            <input placeholder="max" type="number" size="7" id="max" onChange={this.onChange}></input>
 
                         </div>
                     </div>
@@ -190,19 +344,11 @@ class neworders extends Component {
             );
     }
     showitems() {
-        if (this.state.vendors.length != 0 || this.state.menucategories.length != 0 || (this.state.minimum < this.state.maximum))
+        if (this.state.vendors.length != 0 || this.state.menucategories.length != 0 || (parseInt(this.state.minimum) < parseInt(this.state.maximum)))
             return (
                 <div>
-                    <button type="button" class="btn btn-secondary" /*onClick={() => {
-                        this.setState({
-                            minimum: document.getElementById('min').value,
-                            maximum: document.getElementById('max').value
-                        })
-
-
-                    }}*/
-                    >Show Items</button>
-                </div>
+                    <button type="button" class="btn btn-secondary" onClick={() => { this.setState({ buttonClicked: !this.state.buttonClicked }) }}>Show Items</button>
+                </div >
             );
     }
     render() {
@@ -260,10 +406,11 @@ class neworders extends Component {
                 <div className=" m-5" >
                     {this.showitems()}
                 </div>
-
+                <div className=" m-5" >
+                    {this.showData()}
+                </div>
             </div >
         );
     }
 }
 export default neworders;
-
