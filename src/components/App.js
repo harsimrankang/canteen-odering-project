@@ -24,6 +24,8 @@ class App extends Component {
     username: null,
     items: {},
     vendors: {},
+    categories: {},
+    sizes: {}
   };
   /**
    * @summary
@@ -40,8 +42,6 @@ class App extends Component {
   };
   fetchUserData = () => {
     this.props.firebase.auth.onAuthStateChanged((authUser) => {
-      //if (this.state.user == null && authUser != null) this.props.history.push('/mainpage');
-      //console.log(authUser);
       if (authUser != this.state.userData)
         authUser
           ? this.setState({ userData: authUser })

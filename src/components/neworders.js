@@ -71,7 +71,9 @@ class neworders extends Component {
                 kra ge ethe for each use hona okzzzzzz hun agge na dssi 
                  ok
                  mai aape try krdi pehla fr doubt puchu tere to
-                bilkul bilkul*/}
+                bilkul bilkul
+                
+                i am loving it*/}
 
                 {Object.keys(this.state.menu.menuCategories).forEach(
                   (menuCat) => {
