@@ -176,7 +176,7 @@ class UltraMenuPage extends Component {
         if (this.state.selectedVendors.length > 0) {
           console.log(
             this.state.fetchedData["vendors"][this.state.selectedVendors[0]][
-              "name"
+            "name"
             ]
           );
           console.log(this.state.allItems[0].value.vendor);
@@ -185,7 +185,7 @@ class UltraMenuPage extends Component {
               if (
                 this.state.allItems[i].value.vendor ==
                 this.state.fetchedData["vendors"][
-                  this.state.selectedVendors[j]
+                this.state.selectedVendors[j]
                 ]["name"]
               ) {
                 items.push(this.state.allItems[i]);
@@ -276,14 +276,14 @@ class UltraMenuPage extends Component {
                   <button className="btn btn-primary col-3 disabled">
                     {
                       this.state.fetchedData["items"][this.state.popupItem][
-                        "price"
+                      "price"
                       ][key]["size"]
                     }
                   </button>
                   <button className="btn btn-primary col-3 disabled">
                     {
                       this.state.fetchedData["items"][this.state.popupItem][
-                        "price"
+                      "price"
                       ][key]["price"]
                     }
                   </button>
@@ -312,6 +312,10 @@ class UltraMenuPage extends Component {
                   </button>
                 </div>
               ))}
+              <div className="col-12 justify-content-end">
+                <div className="flex-grow-1"></div>
+                <button className="btn btn-danger mr-3">Add Items</button>
+              </div>
             </div>
           </div>
         </div>
@@ -356,7 +360,7 @@ class UltraMenuPage extends Component {
           console.log(vendors[i]);
           Object.keys(
             this.state.categorisedItems[vendors[i]["value"]["name"]][
-              categories[j]["value"]["name"]
+            categories[j]["value"]["name"]
             ]
           ).forEach((key) => {
             flag2 = true;
@@ -367,7 +371,7 @@ class UltraMenuPage extends Component {
               categories[j]["value"]["name"]
             ] = this.state.categorisedItems[vendors[i]["value"]["name"]][
               categories[j]["value"]["name"]
-            ];
+              ];
           }
         }
         if (flag1) categorisedItems[vendors[i]["value"]["name"]] = vendor;
@@ -399,14 +403,14 @@ class UltraMenuPage extends Component {
                                 <div className="d-inline-flex btn btn-dark disabled">
                                   {
                                     categorisedItems[key1][key2][key3]["price"][
-                                      key4
+                                    key4
                                     ]["size"]
                                   }
                                 </div>
                                 <div className="d-inline-flex btn btn-secondary disabled">
                                   {
                                     categorisedItems[key1][key2][key3]["price"][
-                                      key4
+                                    key4
                                     ]["price"]
                                   }
                                 </div>

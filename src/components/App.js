@@ -43,7 +43,8 @@ class App extends Component {
       var sizes = response.sizeCategories;
       var itemArray = []
       //console.log(response.items)
-
+      // var xyz = {}
+      //xyz["key"] = value
 
       Object.keys(items).map(itemId => {
         //var dictionary = { key: itemId, value: items[itemId] } //<- edda bndi dictionary okkk
