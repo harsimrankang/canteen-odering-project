@@ -6,6 +6,7 @@ class neworders extends Component {
         super(props);
     }
     state = {
+        count: null,
         activeItem: null,
         showVendor: false,
         showmenucategories: false,
@@ -19,7 +20,8 @@ class neworders extends Component {
         buttonClicked: false,
         arrayForSelected: {},
         itemSelected: false,
-        itemsInCart: [],
+        // itemsInCart: [],
+        cart: {},
         itemAdded: false
     };
     componentDidMount() {
@@ -130,10 +132,12 @@ class neworders extends Component {
                                     }</div>
                                     <div className="col">{Object.keys(this.props.items[itemArray[index]].price).map(priceId => (
                                         <div>
-                                            <div className="btn btn-primary">
+                                            <div className="btn btn-primary col-5">
                                                 {this.props.items[itemArray[index]]["price"][priceId]["size"]}
                                             </div>
-                                            {this.props.items[itemArray[index]]["price"][priceId]["price"]}
+                                            <div className="btn btn-secondary col-4">
+                                                ₹ {this.props.items[itemArray[index]]["price"][priceId]["price"]}
+                                            </div>
                                         </div>
 
                                     ))
@@ -152,7 +156,7 @@ class neworders extends Component {
                 <div>
                     {this.addToCartButton()}
                 </div>
-            </div>
+            </div >
         );
     }
 
@@ -186,7 +190,7 @@ class neworders extends Component {
     removeFromArrayOfSelectedVendors(x) {
         var vendors = this.state.vendors
         for (var i = 0; i < vendors.length; i++) {
-            if (vendors[i] === x) {
+            if (vendors[i] == x) {
                 vendors.splice(i, 1);
             }
         }
@@ -205,7 +209,7 @@ class neworders extends Component {
     removeFromArrayOfSelectedMenuCategories(x) {
         var menucategories = this.state.menucategories
         for (var i = 0; i < menucategories.length; i++) {
-            if (menucategories[i] === x) {
+            if (menucategories[i] == x) {
                 menucategories.splice(i, 1);
             }
         }
@@ -344,15 +348,69 @@ class neworders extends Component {
             var a = this.state.activeItem
             return (
                 <div>
-                    {this.props.items[a].name}
+                    {this.props.items[a]["name"]}
                 </div>
             )
         }
     }
+    decrementValue(priceId) {
+        var a = document.getElementById(priceId).innerHTML
+        console.log("a in decrement")
+        console.log(a)
+        var b = parseInt(a)
+        if (b > 0) {
+            b--;
+            console.log("b in decrement")
+            console.log(b)
+            //this.props.items[this.state.activeItem]["price"][priceId]["size"]["count"] = b;
+            document.getElementById(priceId).innerHTML = b.toString();
+
+        }
+    }
+    incrementValue(priceId) {
+        var a = document.getElementById(priceId).innerHTML
+        console.log("a in increment")
+        console.log(a)
+        var b = parseInt(a)
+
+        b++;
+        console.log("b in increment")
+        console.log(b)
+        //this.props.items[this.state.activeItem]["price"][priceId]["size"]["count"] = b;
+        document.getElementById(priceId).innerHTML = b.toString();
+
+    }
+    modalbody() {
+        if (this.state.activeItem)
+            return (
+                <div className="col">
+                    {Object.keys(this.props.items[this.state.activeItem]["price"]).map(priceId => (
+                        <div className="row" >
+                            <div class="btn-group col-12" role="group" aria-label="Basic example" style={{ margintop: "10%" }}>
+                                <button type="button" class="btn btn-primary col-4">{this.props.items[this.state.activeItem]["price"][priceId]["size"]}</button>
+                                <button type="button" class="btn btn-secondary disabled">₹ {this.props.items[this.state.activeItem]["price"][priceId]["price"]}</button>
+
+                                <button type="button" class="btn btn-dark" onClick={() => { this.decrementValue(priceId) }}>-</button>
+                                <button type="button" class="btn btn-light" id={priceId}>0</button>
+                                <button type="button" class="btn btn-dark" onClick={() => { this.incrementValue(priceId) }}>+</button>
+
+                            </div>
+
+                        </div>
+                    ))
+                    }
+                </div>
+            )
+    }
+    addToCart() {
+
+        //cart.activeItem.
+
+    }
     showModal() {
         {
             return (
-                <div class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal fade" id="staticBackdrop" data- backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -362,11 +420,11 @@ class neworders extends Component {
                                 </button>
                             </div>
                             <div class="modal-body">
-
+                                {this.modalbody()}
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary">Add item</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal" onClick={() => { this.setState({ activeItem: null }) }}>Close</button>
+                                <button type="button" class="btn btn-primary" onclick={() => { this.addToCart() }}>Add item</button>
                             </div>
                         </div>
                     </div>
@@ -388,8 +446,9 @@ class neworders extends Component {
                 <div >
                     {this.showModal()}
                 </div>
-
                 <div className="col">
+
+
                     <div className="btn-group " style={{ top: "10px" }}>
                         <button
                             type="button"
@@ -432,6 +491,8 @@ class neworders extends Component {
             </a>
                         </div>
                     </div>
+
+
                     <div className="row">
                         {this.showvendorscard()}
                         {this.showmenucategoriescard()}
