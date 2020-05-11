@@ -12,7 +12,7 @@ class neworders extends Component {
         showVendor: false,
         showmenucategories: false,
         showprice: false,
-        menu: {},
+        menu: null,
         vendors: [],
         menucategories: [],
         selected: false,
@@ -26,9 +26,7 @@ class neworders extends Component {
         itemAdded: false
     };
     componentDidMount() {
-        $('#myModal').on('hide.bs.modal', function (event) {
-            this.setState({ activeItem: null })
-        })
+
 
         fetch("https://canteen-ordering-3d30c.firebaseio.com/public.json")
             .then((res) => res.json())
@@ -57,6 +55,8 @@ class neworders extends Component {
         console.log("ACTIVE ITEM")
         //this.setState({ itemArray: this.props.itemArray })
         console.log(this.state.activeItem)
+        console.log("CART")
+        console.log(this.state.cart)
     }
     fetchDataFromFirebase() {
         var itemArray = [... this.props.itemArray]
@@ -97,15 +97,21 @@ class neworders extends Component {
         }
         var flag = 0;
         //console.log(itemArray)
-        if (this.state.minimum != null && this.state.maximum != null)
+        if (this.state.minimum != null || this.state.maximum != null)
             for (var i = 0; i < itemArray.length; i++) {
                 flag = 0;
-                Object.keys(this.props.items[itemArray[i]]["price"]).map(menuCat => {
-                    if (parseInt(this.state.minimum) < this.props.items[itemArray[i]]["price"][menuCat]["price"] && parseInt(this.state.maximum) > this.props.items[itemArray[i]]["price"][menuCat]["price"]) {
+                Object.keys(this.props.items[itemArray[i]]["price"]).map((menuCat) => {
+                    if (
+                        (this.state.minimum &&
+                            parseInt(this.state.minimum) <
+                            this.props.items[itemArray[i]]["price"][menuCat]["price"]) ||
+                        (this.state.maximum &&
+                            parseInt(this.state.maximum) >
+                            this.props.items[itemArray[i]]["price"][menuCat]["price"])
+                    ) {
                         flag = 1;
-
                     }
-                })
+                });
                 if (flag == 0) {
                     itemArray.splice(i, 1);
                     i--;
@@ -182,13 +188,13 @@ class neworders extends Component {
         //addItem kr ki reha, cart ch add kr reha? yesss
     }
     showData() {
-        if (this.state.buttonClicked == true)
-            return (
+        // if (this.state.buttonClicked == true)
+        return (
 
-                <div> {this.fetchDataFromFirebase()}</div>
+            <div> {this.fetchDataFromFirebase()}</div>
 
 
-            );
+        );
     }
     arrayOfSelectedVendors(x) {
         var vendors = this.state.vendors;
@@ -229,7 +235,7 @@ class neworders extends Component {
         console.log(this.state.menucategories)
     }
     showvendorscard() {
-        if (this.state.showVendor)
+        if (this.state.menu != null)
             return (
                 <div className="col-4" style={{ top: "15px" }}>
                     <div class="card" style={{ height: "14.3rem" }}>
@@ -277,7 +283,7 @@ class neworders extends Component {
     }
     showmenucategoriescard() {
         {
-            if (this.state.showmenucategories)
+            if (this.state.menu)
                 return (
                     <div className="col-4" style={{ top: "15px" }}>
                         <div class="card">
@@ -325,19 +331,21 @@ class neworders extends Component {
 
     }
     onChange = event => {
+        var x = event.target.value;
+        if (x == "") x = null;
         if (event.target.id == 'min') {
             this.setState({
-                minimum: event.target.value
+                minimum: x
             })
         }
         if (event.target.id == 'max') {
             this.setState({
-                maximum: event.target.value
+                maximum: x
             })
         }
     }
     showpricecard() {
-        if (this.state.showprice)
+        if (this.state.menu)
             return (
                 <div className="col-4" style={{ top: "15px" }}>
                     <div class="card " style={{ height: "14.3rem" }}>
@@ -412,9 +420,29 @@ class neworders extends Component {
             )
     }
     addToCart() {
+        console.log("ran")
+        var cart = this.state.cart
 
-        //cart.activeItem.
+        var activeItem = this.state.activeItem
+        // console.log(cart[activeItem])
+        if (cart[activeItem] == undefined) {
+            cart[activeItem] = {}
+            Object.keys(this.props.items[this.state.activeItem]["price"]).map(priceId => {
+                var count = parseInt(document.getElementById(priceId).innerHTML)
+                cart[activeItem][priceId] = count
+            })
+            //console.log(cart[activeItem])
 
+        }
+        else {
+            Object.keys(this.props.items[this.state.activeItem]["price"]).map(priceId => {
+                var count = parseInt(document.getElementById(priceId).innerHTML) + parseInt(cart[activeItem][priceId])
+                cart[activeItem][priceId] = count
+            })
+        }
+        this.setState({ cart: cart, activeItem: null })
+
+        //cart:{psaduvw12453tgr:{hgsdfca6sdf2:12}}
     }
     showModal() {
         {
@@ -424,16 +452,15 @@ class neworders extends Component {
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="staticBackdropLabel">{this.modalhead()}</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
+
+
                             </div>
                             <div class="modal-body">
                                 {this.modalbody()}
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal" data-toggle="modal" data-target="#myModal" onClick={() => { this.setState({ activeItem: null }) }}>Close</button>
-                                <button type="button" class="btn btn-primary" onclick={() => { this.addToCart() }}>Add item</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal" onClick={() => { this.setState({ activeItem: null }) }}>Close</button>
+                                <button type="button" class="btn btn-primary" data-dismiss="modal" onClick={() => { this.addToCart() }}>Add item</button>
                             </div>
                         </div>
                     </div>
@@ -441,14 +468,7 @@ class neworders extends Component {
             );
         }
     }
-    showitems() {
-        if (this.state.vendors.length != 0 || this.state.menucategories.length != 0 || (parseInt(this.state.minimum) < parseInt(this.state.maximum)))
-            return (
-                <div>
-                    <button type="button" class="btn btn-secondary" onClick={() => { this.setState({ buttonClicked: !this.state.buttonClicked }) }}>Show Items</button>
-                </div >
-            );
-    }
+
     render() {
         return (
             <div>
@@ -458,7 +478,7 @@ class neworders extends Component {
                 <div className="col">
 
 
-                    <div className="btn-group " style={{ top: "10px" }}>
+                    {/* <div className="btn-group " style={{ top: "10px" }}>
                         <button
                             type="button"
                             className="btn btn-danger dropdown-toggle"
@@ -500,7 +520,7 @@ class neworders extends Component {
             </a>
                         </div>
                     </div>
-
+                            */}
 
                     <div className="row">
                         {this.showvendorscard()}
@@ -508,9 +528,7 @@ class neworders extends Component {
                         {this.showpricecard()}
                     </div>
                 </div>
-                <div className=" m-5" >
-                    {this.showitems()}
-                </div>
+
                 <div className=" m-5" >
                     {this.showData()}
                 </div>
