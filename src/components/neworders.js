@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import $ from 'jquery';
 import { Link } from "react-router-dom";
 
 class neworders extends Component {
@@ -25,9 +26,16 @@ class neworders extends Component {
         itemAdded: false
     };
     componentDidMount() {
+        $('#myModal').on('hide.bs.modal', function (event) {
+            this.setState({ activeItem: null })
+        })
+
         fetch("https://canteen-ordering-3d30c.firebaseio.com/public.json")
             .then((res) => res.json())
             .then((res) => this.setState({ menu: res }))
+
+
+
 
         // .then((res) => this.setState({ arrayForSelected: res }));
     }
@@ -169,7 +177,7 @@ class neworders extends Component {
             );
     }
     addItem(x) {
-        this.setState({ activeItem: null })
+        //this.setState({ activeItem: null })
         this.setState({ activeItem: x }) //Chall reha, mgr jdo tak oh update hunda state ch ohto pehla aapa print kara taa print nhi hoya
         //addItem kr ki reha, cart ch add kr reha? yesss
     }
@@ -424,7 +432,7 @@ class neworders extends Component {
                                 {this.modalbody()}
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal" data-toggle="modal" data-target="#myModal" onClick={() => { this.setState({ activeItem: null }) }}>Close</button>
                                 <button type="button" class="btn btn-primary" onclick={() => { this.addToCart() }}>Add item</button>
                             </div>
                         </div>
