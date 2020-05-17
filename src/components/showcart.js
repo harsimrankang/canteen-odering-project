@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./atc.css";
-class Addtocart extends Component {
+class Showcart extends Component {
     render() {
         return (
             <div class="container ">
@@ -18,10 +18,10 @@ class Addtocart extends Component {
                     <div class="cart-total-title">Total</div>
                     <span class="cart-total-price">0</span>
                 </div>
-                <button type="button" class="btn btn-info btn-purchase ">PURCHASE</button>
+                <button type="button" class="btn btn-info btn-purchase ">PLACE ORDER</button>
             </div>
         );
     }
 }
 
-export default Addtocart;
+export default Showcart;

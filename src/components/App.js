@@ -19,7 +19,7 @@ import AddItems from "./AddItems";
 import UltraMenuPage from "./ultraMenuPage";
 import Profile from "./profile";
 import Addtocart from "./addtocart";
-
+import Showcart from "./showcart";
 class App extends Component {
   state = {
     userData: null,
@@ -201,6 +201,9 @@ class App extends Component {
             </Route>
             <Route path="/addtocart">
               <Addtocart />
+            </Route>
+            <Route path="/showcart">
+              <Showcart />
             </Route>
             <Route path="/profile">
               <Profile userdata={this.state.userData} username={this.state.username} />
