@@ -1,3 +1,22 @@
+/*
+1- A website made to streamline the food ordering system for students.
+2- The students have to wait in long queues to place orders.
+
+3- in order to avoid long queues for placing order and for better time management
+for students as well as canteen staff
+
+4- we are making a website for students to order food online so that they can order from
+anywhere and in advance
+
+
+*/
+
+
+
+
+
+
+
 import React, { Component } from "react";
 import $ from 'jquery';
 import { Link } from "react-router-dom";
@@ -35,6 +54,8 @@ class neworders extends Component {
 
 
 
+
+
         // .then((res) => this.setState({ arrayForSelected: res }));
     }
     componentDidUpdate() {
@@ -57,6 +78,13 @@ class neworders extends Component {
         console.log(this.state.activeItem)
         console.log("CART")
         console.log(this.state.cart)
+        /* if(this.state.menu==null)
+         {
+             const vendors=this.state.vendors.length?null:this.state.vendors
+             const menucategories=this.state.menucategories.length?null:this.state.menucategories
+             this.props.firebase.filterOrders(
+             JSON.stringify)
+         }*/
     }
     fetchDataFromFirebase() {
         var itemArray = [... this.props.itemArray]
