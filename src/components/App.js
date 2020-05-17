@@ -17,6 +17,8 @@ import SignUp from "./SignUp";
 import Login from "./Login";
 import AddItems from "./AddItems";
 import UltraMenuPage from "./ultraMenuPage";
+import Profile from "./profile";
+import Addtocart from "./addtocart";
 
 class App extends Component {
   state = {
@@ -193,7 +195,15 @@ class App extends Component {
               <AddItems />
             </Route>
             <Route path="/ultramenu">
-              <UltraMenuPage />
+              <UltraMenuPage vendors={this.state.vendors}
+                categories={this.state.categories}
+                sizes={this.state.sizes} />
+            </Route>
+            <Route path="/addtocart">
+              <Addtocart />
+            </Route>
+            <Route path="/profile">
+              <Profile userdata={this.state.userData} username={this.state.username} />
             </Route>
           </Switch>
         </div>

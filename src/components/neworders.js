@@ -2,11 +2,11 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
 class neworders extends Component {
-<<<<<<< HEAD
   constructor(props) {
     super(props);
   }
   state = {
+    activeItem: null,
     showVendor: false,
     showmenucategories: false,
     showprice: false,
@@ -18,7 +18,9 @@ class neworders extends Component {
     maximum: null,
     buttonClicked: false,
     arrayForSelected: {},
-    itemSelected: false
+    itemSelected: false,
+    itemsInCart: [],
+    itemAdded: false
   };
   componentDidMount() {
     fetch("https://canteen-ordering-3d30c.firebaseio.com/public.json")
@@ -42,313 +44,141 @@ class neworders extends Component {
     console.log(this.state.vendors)
     console.log("MENU CATEGORIES")
     console.log(this.state.menucategories)
+    console.log("ACTIVE ITEM")
+    //this.setState({ itemArray: this.props.itemArray })
+    console.log(this.state.activeItem)
   }
   fetchDataFromFirebase() {
+    var itemArray = [... this.props.itemArray]
     var k = 0;
     if (this.state.vendors.length != 0)
-      Object.keys(this.props.items).map(itemId => {
+      for (var j = 0; j < itemArray.length; j++) {
         var flag = 0;
         for (var i = 0; i < this.state.vendors.length; i++) {
-          if (this.props.items[itemId]["vendor"] == this.state.vendors[i].name) {
+          if (this.props.items[itemArray[j]]["vendor"] == this.state.vendors[i].name) {
             flag = 1;
-            break;
+            //break;
           }
         }
         if (flag == 0) {
-          this.props.itemArray.splice(k, 1);
-          k--;
+          itemArray.splice(j, 1);
+          j--;
         }
-        k++;
-      })
+      }
     if (this.state.menucategories.length != 0) {
-      var k = 0, flag = 0;
-      for (var i = 0; i < this.props.itemArray.length; i++) {
+      // var k = 0, 
+      var flag = 0;
+      for (var i = 0; i < itemArray.length; i++) {
         flag = 0;
         for (var j = 0; j < this.state.menucategories.length; j++) {
-          Object.keys(this.props.items[this.props.itemArray[i]]["menuCategories"]).map(menuCat => {
-            if (this.props.items[this.props.itemArray[i]]["menuCategories"][menuCat]["name"] == this.state.menucategories[j].name) {
+          Object.keys(this.props.items[itemArray[i]]["menuCategories"]).map(menuCat => {
+            if (this.props.items[itemArray[i]]["menuCategories"][menuCat]["name"] == this.state.menucategories[j].name) {
               flag = 1;
 
-=======
-    constructor(props) {
-        super(props);
-    }
-    state = {
-        activeItem: null,
-        showVendor: false,
-        showmenucategories: false,
-        showprice: false,
-        menu: {},
-        vendors: [],
-        menucategories: [],
-        selected: false,
-        minimum: null,
-        maximum: null,
-        buttonClicked: false,
-        arrayForSelected: {},
-        itemSelected: false,
-        itemsInCart: [],
-        itemAdded: false
-    };
-    componentDidMount() {
-        fetch("https://canteen-ordering-3d30c.firebaseio.com/public.json")
-            .then((res) => res.json())
-            .then((res) => this.setState({ menu: res }))
-
-        // .then((res) => this.setState({ arrayForSelected: res }));
-    }
-    componentDidUpdate() {
-        console.log("MINIMUM")
-        console.log(this.state.minimum)
-        console.log("MAXIMUM")
-        console.log(this.state.maximum)
-        console.log("MENU")
-        console.log(this.state.menu)
-        console.log("ITEMS FROM APP.js")
-        console.log(this.props.items)
-        console.log("ITEMARRAY FROM APP.js")
-        console.log(this.props.itemArray)
-        console.log("VENDORS")
-        console.log(this.state.vendors)
-        console.log("MENU CATEGORIES")
-        console.log(this.state.menucategories)
-        console.log("ACTIVE ITEM")
-        //this.setState({ itemArray: this.props.itemArray })
-        console.log(this.state.activeItem)
-    }
-    fetchDataFromFirebase() {
-        var itemArray = [... this.props.itemArray]
-        var k = 0;
-        if (this.state.vendors.length != 0)
-            for (var j = 0; j < itemArray.length; j++) {
-                var flag = 0;
-                for (var i = 0; i < this.state.vendors.length; i++) {
-                    if (this.props.items[itemArray[j]]["vendor"] == this.state.vendors[i].name) {
-                        flag = 1;
-                        //break;
-                    }
-                }
-                if (flag == 0) {
-                    itemArray.splice(j, 1);
-                    j--;
-                }
-            }
-        if (this.state.menucategories.length != 0) {
-            // var k = 0, 
-            var flag = 0;
-            for (var i = 0; i < itemArray.length; i++) {
-                flag = 0;
-                for (var j = 0; j < this.state.menucategories.length; j++) {
-                    Object.keys(this.props.items[itemArray[i]]["menuCategories"]).map(menuCat => {
-                        if (this.props.items[itemArray[i]]["menuCategories"][menuCat]["name"] == this.state.menucategories[j].name) {
-                            flag = 1;
-
-                        }
-                    })
-                }
-                if (flag == 0) {
-                    itemArray.splice(i, 1);
-                    i--;
-                }
-                //k++;
->>>>>>> 709032f9dcd8abd18a8d24f045f405d5688b1d28
             }
           })
         }
         if (flag == 0) {
-          this.props.itemArray.splice(k, 1);
-          k--;
+          itemArray.splice(i, 1);
+          i--;
         }
-<<<<<<< HEAD
-        k++;
+        //k++;
       }
-    }
-=======
-        var flag = 0;
-        //console.log(itemArray)
-        if (this.state.minimum != null && this.state.maximum != null)
-            for (var i = 0; i < itemArray.length; i++) {
-                flag = 0;
-                Object.keys(this.props.items[itemArray[i]]["price"]).map(menuCat => {
-                    if (parseInt(this.state.minimum) < this.props.items[itemArray[i]]["price"][menuCat]["price"] && parseInt(this.state.maximum) > this.props.items[itemArray[i]]["price"][menuCat]["price"]) {
-                        flag = 1;
->>>>>>> 709032f9dcd8abd18a8d24f045f405d5688b1d28
 
-                    }
-                })
-                if (flag == 0) {
-                    itemArray.splice(i, 1);
-                    i--;
-                }
-            }
-        console.log("RESULT")
-        console.log(itemArray)
-        return (
-            <div>
-                <div className="card bg-light">
-                    <div className="card-body ">
-                        <div className="d-flex">
-                            <div className="col">Name</div>
-                            <div className="col">Vendor</div>
-                            <div className="col">Category</div>
-                            <div className="col">size and price</div>
-                            <div className="">Add To Cart</div>
-                        </div>
+    }
+    if (flag == 0) {
+      this.props.itemArray.splice(k, 1);
+      k--;
+    }
+    var flag = 0;
+    //console.log(itemArray)
+    if (this.state.minimum != null && this.state.maximum != null)
+      for (var i = 0; i < itemArray.length; i++) {
+        flag = 0;
+        Object.keys(this.props.items[itemArray[i]]["price"]).map(menuCat => {
+          if (parseInt(this.state.minimum) < this.props.items[itemArray[i]]["price"][menuCat]["price"] && parseInt(this.state.maximum) > this.props.items[itemArray[i]]["price"][menuCat]["price"]) {
+            flag = 1;
+
+          }
+        })
+        if (flag == 0) {
+          itemArray.splice(i, 1);
+          i--;
+        }
+      }
+    console.log("RESULT")
+    console.log(itemArray)
+    return (
+      <div>
+        <div className="card bg-light">
+          <div className="card-body ">
+            <div className="d-flex">
+              <div className="col">Name</div>
+              <div className="col">Vendor</div>
+              <div className="col">Category</div>
+              <div className="col">size and price</div>
+              <div className="">Add To Cart</div>
+            </div>
+          </div>
+
+          {itemArray.map((value, index) => (
+            <div className="card my-1 mx-1">
+              <div className="card-body">
+
+                <div className="d-flex">
+                  <div className="col"> {this.props.items[itemArray[index]].name}</div>
+                  <div className="col"> {this.props.items[itemArray[index]].vendor}</div>
+                  <div className="col">{
+                    Object.keys(this.props.items[itemArray[index]].menuCategories).map(menuId => (
+                      <div>{this.props.items[itemArray[index]].menuCategories[menuId].name}</div>
+                    ))
+                  }</div>
+                  <div className="col">{Object.keys(this.props.items[itemArray[index]].price).map(priceId => (
+                    <div>
+                      <div className="btn btn-primary">
+                        {this.props.items[itemArray[index]]["price"][priceId]["size"]}
+                      </div>
+                      {this.props.items[itemArray[index]]["price"][priceId]["price"]}
                     </div>
 
-                    {itemArray.map((value, index) => (
-                        <div className="card my-1 mx-1">
-                            <div className="card-body">
+                  ))
+                  }
+                  </div>
 
-                                <div className="d-flex">
-                                    <div className="col"> {this.props.items[itemArray[index]].name}</div>
-                                    <div className="col"> {this.props.items[itemArray[index]].vendor}</div>
-                                    <div className="col">{
-                                        Object.keys(this.props.items[itemArray[index]].menuCategories).map(menuId => (
-                                            <div>{this.props.items[itemArray[index]].menuCategories[menuId].name}</div>
-                                        ))
-                                    }</div>
-                                    <div className="col">{Object.keys(this.props.items[itemArray[index]].price).map(priceId => (
-                                        <div>
-                                            <div className="btn btn-primary">
-                                                {this.props.items[itemArray[index]]["price"][priceId]["size"]}
-                                            </div>
-                                            {this.props.items[itemArray[index]]["price"][priceId]["price"]}
-                                        </div>
+                  <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop" style={{ height: 40 }} onClick={() => { this.addItem(itemArray[index]) }}>Add item</button>
+                </div>
+              </div>
+            </div>
 
-                                    ))
-                                    }
-                                    </div>
+          ))
 
-                                    <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop" style={{ height: 40 }} onClick={() => { this.addItem(itemArray[index]) }}>Add item</button>
-                                </div>
-                            </div>
-                        </div>
+          }
+        </div>
+        <div>
+          {this.addToCartButton()}
+        </div>
+      </div>
+    );
+  }
 
-                    ))
-
-<<<<<<< HEAD
-    /*this.setState({
-        arrayForSelected
-            : this.state.menu
-    })
-    for (var i = 0; i < this.state.vendors.length; i++) {
-        {
-            Object.key(this.state.arrayForSelected["items"]).map(itemId => {
-                if (this.state.arrayForSelected["items"][itemId]["vendor"] === this.state.vendors[i].name) {
-                    var x = this.state.arrayForSelected["items"][itemId]["vendor"].itemSelected
-                    this.setState({
-                        x: true
-                    })
-                }
-            }
-            )
-        }
-    }
-    for (var i = 0; i < this.state.menucategories.length; i++) {
-        {
-            Object.key(this.state.arrayForSelected["items"].map(itemsId => {
-                if (this.state.arrayForSelected["items"][itemsId]["vendor"].itemSelected === true) {
-                    {
-                        Object.key(this.state.arrayForSelected["items"][itemsId][menuCategories]).map(catId => {
-                            if (this.state.arrayForSelected["items"][itemsId][menuCategories][catId]["name"] != this.state.menucategories[i].name) {
-                                var x = this.state.arrayForSelected["items"][itemId]["vendor"].itemSelected
-                                this.setState({
-                                    x: false
-                                })
-                            }
-                        })
-                    }
-                }
-            }))
-        }
-    }*/
-
-
-    //arrayGForSelected
-
-    /* for (var i = 0; i < this.state.vendors.length; i++) {
-         for (var j = 0; j < this.state.menucategories.length; j++) {
-             for (var k = this.state.minimum; k <= this.state.maximum; k++) {
-                 {
-                     Object.keys(this.state.menu["items"]).map(itemId => {
-                         if (this.state.menu["items"][itemId]["vendor"] === this.state.vendors[i].name) {
-                             Object.keys(this.state.menu["items"][itemId]["menuCategories"]).map(menuCategoryId => {
-                                 if (this.state.menu["items"][itemId]["menuCategories"][menuCategoryId]["name"] === this.state.menucategories[i].name) {
-                                     {
- 
-                                     }
-                                 }
-                             })
-                         }
-                         {
-                             if (this.state.minimum != null && this.state.maximum != null)
-                                 Object.keys(this.state.menu["items"][itemId]["price"]).map(priceId => {
-                                     if ((this.state.menu["items"][itemId]["price"][priceId]["price"] > parseInt(this.state.minimum)) && (this.state.menu["items"][itemId]["price"][priceId]["price"] < parseInt(this.state.maximum))) {
-                                         {
- 
-                                         }
-                                     }
-                                 })
-                         }
- 
-                     })
-                 }
-             }
-         }
-     }*/
+  addToCartButton() {
+    if (this.state.itemAdded)
+      return (
+        <div className="btn btn-primary">
+          Add To Cart
+        </div>
+      );
+  }
+  addItem(x) {
+    this.setState({ activeItem: x }) //Chall reha, mgr jdo tak oh update hunda state ch ohto pehla aapa print kara taa print nhi hoya
+    //addItem kr ki reha, cart ch add kr reha? yesss
   }
   showData() {
     if (this.state.buttonClicked == true)
       return (
-        <div className="card bg-light">
-          <div className="card-body ">
-            <div className="d-flex">
-              <div className="col-3">Name</div>
-              <div className="col-3">Vendor</div>
-              <div className="col-3">Category</div>
-              <div className="col-3">size and price</div>
-            </div>
-            <div> {this.fetchDataFromFirebase()}</div>
-            {/* <div className="card my-1">
-                            <div className="card-body d-flex">
-                                <div className="col-3">Name</div>
-                                <div className="col-3">Vendor</div>
-                                <div className="col-3">Category</div>
-                                <div className="col-3">size and price</div>
-                            </div>
-                        </div>*/}
-          </div>
-        </div>
-=======
-                    }
-                </div>
-                <div>
-                    {this.addToCartButton()}
-                </div>
-            </div>
-        );
-    }
 
-    addToCartButton() {
-        if (this.state.itemAdded)
-            return (
-                <div className="btn btn-primary">
-                    Add To Cart
-                </div>
-            );
-    }
-    addItem(x) {
-        this.setState({ activeItem: x }) //Chall reha, mgr jdo tak oh update hunda state ch ohto pehla aapa print kara taa print nhi hoya
-        //addItem kr ki reha, cart ch add kr reha? yesss
-    }
-    showData() {
-        if (this.state.buttonClicked == true)
-            return (
+        <div> {this.fetchDataFromFirebase()}</div>
 
-                <div> {this.fetchDataFromFirebase()}</div>
-
->>>>>>> 709032f9dcd8abd18a8d24f045f405d5688b1d28
 
       );
   }
@@ -456,7 +286,6 @@ class neworders extends Component {
                           menu: menu
                         })
 
-<<<<<<< HEAD
                       }
                       }>
                         {this.state.menu["menuCategories"][menuCat]["name"]}
@@ -470,32 +299,11 @@ class neworders extends Component {
                       this.setState({
                         menu: menu
                       })
-
                     }
                     }>
                       {this.state.menu["menuCategories"][menuCat]["name"]}
                     </button>
                   );
-=======
-                                            }
-                                            }>
-                                                {this.state.menu["menuCategories"][menuCat]["name"]}
-                                            </button>
-                                        );
-                                    else return (
-                                        <button type="button" className="btn btn-secondary m-1" onClick={() => {
-                                            var menu = this.state.menu
-                                            menu["menuCategories"][menuCat].selected = undefined
-                                            this.removeFromArrayOfSelectedMenuCategories(menu["menuCategories"][menuCat])
-                                            this.setState({
-                                                menu: menu
-                                            })
-                                        }
-                                        }>
-                                            {this.state.menu["menuCategories"][menuCat]["name"]}
-                                        </button>
-                                    );
->>>>>>> 709032f9dcd8abd18a8d24f045f405d5688b1d28
 
                 }
                 )}
@@ -531,11 +339,45 @@ class neworders extends Component {
               <a> - </a>
               <input placeholder="max" type="number" size="7" id="max" onChange={this.onChange}></input>
 
-<<<<<<< HEAD
             </div>
           </div>
         </div>
       );
+  }
+  modalhead() {
+    if (this.state.activeItem != null) {
+      var a = this.state.activeItem
+      return (
+        <div>
+          {this.props.items[a].name}
+        </div>
+      )
+    }
+  }
+  showModal() {
+    {
+      return (
+        <div class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">{this.modalhead()}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Add item</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
   }
   showitems() {
     if (this.state.vendors.length != 0 || this.state.menucategories.length != 0 || (parseInt(this.state.minimum) < parseInt(this.state.maximum)))
@@ -548,6 +390,10 @@ class neworders extends Component {
   render() {
     return (
       <div>
+        <div >
+          {this.showModal()}
+        </div>
+
         <div className="col">
           <div className="btn-group " style={{ top: "10px" }}>
             <button
@@ -568,7 +414,7 @@ class neworders extends Component {
                 }
               >
                 Vendors
-            </a>
+                    </a>
               <div className="dropdown-divider"></div>
               <a
                 className="dropdown-item"
@@ -579,94 +425,6 @@ class neworders extends Component {
                 }
               >
                 Menu Categories
-=======
-                        </div>
-                    </div>
-                </div>
-            );
-    }
-    modalhead() {
-        if (this.state.activeItem != null) {
-            var a = this.state.activeItem
-            return (
-                <div>
-                    {this.props.items[a].name}
-                </div>
-            )
-        }
-    }
-    showModal() {
-        {
-            return (
-                <div class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="staticBackdropLabel">{this.modalhead()}</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary">Add item</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            );
-        }
-    }
-    showitems() {
-        if (this.state.vendors.length != 0 || this.state.menucategories.length != 0 || (parseInt(this.state.minimum) < parseInt(this.state.maximum)))
-            return (
-                <div>
-                    <button type="button" class="btn btn-secondary" onClick={() => { this.setState({ buttonClicked: !this.state.buttonClicked }) }}>Show Items</button>
-                </div >
-            );
-    }
-    render() {
-        return (
-            <div>
-                <div >
-                    {this.showModal()}
-                </div>
-
-                <div className="col">
-                    <div className="btn-group " style={{ top: "10px" }}>
-                        <button
-                            type="button"
-                            className="btn btn-danger dropdown-toggle"
-                            data-toggle="dropdown"
-                            aria-haspopup="true"
-                            aria-expanded="false"
-                        >
-                            Filter By
-                    </button>
-
-                        <div className="dropdown-menu">
-                            <a
-                                className="dropdown-item"
-                                onClick={() =>
-                                    this.setState({ showVendor: !this.state.showVendor })
-                                }
-                            >
-                                Vendors
-                    </a>
-                            <div className="dropdown-divider"></div>
-                            <a
-                                className="dropdown-item"
-                                onClick={() =>
-                                    this.setState({
-                                        showmenucategories: !this.state.showmenucategories
-                                    })
-                                }
-                            >
-                                Menu Categories
->>>>>>> 709032f9dcd8abd18a8d24f045f405d5688b1d28
             </a>
               <div className="dropdown-divider"></div>
               <a
